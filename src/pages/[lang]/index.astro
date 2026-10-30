@@ -6,7 +6,6 @@ import Container from "@/components/ui/Container.astro";
 import Eyebrow from "@/components/ui/Eyebrow.astro";
 import Icon from "@/components/ui/Icon.astro";
 import SectionHeader from "@/components/ui/SectionHeader.astro";
-import TypeSpiral from "@/components/ui/TypeSpiral.astro";
 import { profile } from "@/data/profile";
 import type { Lang } from "@/i18n/config";
 import { langStaticPaths, localizePath, useTranslations } from "@/i18n/utils";
@@ -19,55 +18,37 @@ const LATEST_POSTS = 3;
 const lang = Astro.params.lang as Lang;
 const t = useTranslations(lang);
 const posts = await getPosts(lang);
-const spiralWords = [...t("hero.spiral").split(","), profile.handle];
 const github = profile.links.find(({ label }) => label === "GitHub");
 ---
 
 <BaseLayout>
-  <section class="grid lg:min-h-svh lg:grid-cols-2">
-    <div
-      class="flex flex-col justify-center px-6 pt-36 pb-16 sm:px-10 lg:px-16 xl:px-20"
+  <Container class="pt-40 pb-24 sm:pt-52 sm:pb-32">
+    <Eyebrow>{t("site.description")}</Eyebrow>
+    <h1
+      class="mt-6 text-8xl leading-none font-medium tracking-tight sm:text-9xl"
     >
-      <Eyebrow class="text-fg">{t("hero.eyebrow")}</Eyebrow>
-      <h1
-        class="mt-6 max-w-xl text-5xl leading-[1.02] font-medium tracking-tight text-balance sm:text-6xl"
-      >
-        {t("hero.title")}
-      </h1>
-      <p class="mt-8 max-w-xl text-lg text-muted">{t("hero.intro")}</p>
+      TBD
+    </h1>
 
-      <div class="mt-10 flex flex-wrap gap-3">
-        <Button href={localizePath(lang, "/blog")} dot>
-          {t("hero.cta")}
-          <Icon name="arrowRight" class="size-3.5" />
-        </Button>
-        {
-          github && (
-            <Button href={github.href} variant="soft" rel="me noopener">
-              {github.label}
-              <Icon name="arrowUpRight" class="size-3.5" />
-            </Button>
-          )
-        }
-      </div>
+    <div class="mt-12 flex flex-wrap gap-3">
+      <Button href={localizePath(lang, "/blog")} dot>
+        {t("hero.cta")}
+        <Icon name="arrowRight" class="size-3.5" />
+      </Button>
+      {
+        github && (
+          <Button href={github.href} variant="soft" rel="me noopener">
+            {github.label}
+            <Icon name="arrowUpRight" class="size-3.5" />
+          </Button>
+        )
+      }
     </div>
-
-    <!-- Always-dark panel -->
-    <div
-      class="dark relative flex aspect-square items-center justify-center overflow-hidden bg-ink text-fg lg:aspect-auto"
-    >
-      <TypeSpiral words={spiralWords} class="absolute size-[150%] max-w-none" />
-    </div>
-  </section>
+  </Container>
 
   <section class="dark bg-ink text-fg">
     <Container class="py-24 sm:py-32">
-      <SectionHeader
-        index="01"
-        label={t("nav.blog")}
-        title={t("home.writing")}
-        intro={t("home.writingIntro")}
-      >
+      <SectionHeader index="01" label={t("nav.blog")} title={t("home.writing")}>
         <Button href={localizePath(lang, "/blog")} variant="soft">
           {t("home.allPosts")}
           <Icon name="arrowRight" class="size-3.5" />

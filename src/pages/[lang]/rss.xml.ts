@@ -13,7 +13,7 @@ export const GET: APIRoute = async ({ params, site }) => {
 
   return rss({
     title: `${t("site.title")} — ${t("blog.title")}`,
-    description: t("blog.description"),
+    description: t("site.description"),
     site: site!,
     customData: `<language>${localeTags[lang]}</language>`,
     items: posts.map((post) => ({
