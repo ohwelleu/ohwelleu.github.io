@@ -3,7 +3,7 @@ import type { Lang } from "./config";
 export const ui = {
   en: {
     "site.title": "ohwelleu",
-    "site.description": "just another github page",
+    "site.description": "Just another github page",
     "nav.main": "Main",
     "nav.home": "Home",
     "nav.blog": "Blog",
@@ -25,7 +25,7 @@ export const ui = {
   },
   lt: {
     "site.title": "ohwelleu",
-    "site.description": "just another github page",
+    "site.description": "Just another github page",
     "nav.main": "Pagrindinis meniu",
     "nav.home": "Pradžia",
     "nav.blog": "Blogas",

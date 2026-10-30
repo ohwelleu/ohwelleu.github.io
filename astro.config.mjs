@@ -8,7 +8,8 @@ export default defineConfig({
   integrations: [sitemap()],
   markdown: {
     shikiConfig: {
-      theme: "vesper",
+      themes: { light: "github-light", dark: "vesper" },
+      defaultColor: false,
     },
   },
   vite: {

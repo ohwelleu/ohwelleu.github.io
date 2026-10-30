@@ -10,9 +10,7 @@ const { tags } = Astro.props;
   tags.length > 0 && (
     <ul class="flex flex-wrap gap-2">
       {tags.map((tag) => (
-        <li class="rounded-md bg-surface px-2.5 py-1 eyebrow text-muted">
-          {tag}
-        </li>
+        <li class="bg-surface px-2.5 py-1 eyebrow text-muted">{tag}</li>
       ))}
     </ul>
   )
