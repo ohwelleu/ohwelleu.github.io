@@ -1,0 +1,76 @@
+import type { Lang } from "./config";
+
+export const ui = {
+  en: {
+    "site.title": "ohwelleu",
+    "site.description":
+      "Personal page, CV and blog of Karolis — web development, test automation and experiments.",
+    "nav.home": "home",
+    "nav.blog": "blog",
+    "nav.cv": "cv",
+    "theme.toggle": "Toggle dark / light theme",
+    "lang.switch": "Switch language",
+    "home.greeting": "Hello, world!",
+    "home.intro":
+      "I build things for the web, automate tests and tinker with AI tools. This is my corner of the internet.",
+    "home.latest": "Latest posts",
+    "home.allPosts": "All posts",
+    "home.readCv": "Read my CV",
+    "blog.title": "Blog",
+    "blog.description":
+      "Notes on web development, testing and AI-assisted coding.",
+    "blog.empty": "No posts yet. Check back soon.",
+    "blog.readMore": "read more",
+    "blog.back": "Back to blog",
+    "blog.published": "Published",
+    "blog.updated": "Updated",
+    "blog.readingTime": "min read",
+    "cv.title": "Curriculum Vitae",
+    "cv.description": "Experience, skills and contacts.",
+    "cv.experience": "Experience",
+    "cv.skills": "Skills",
+    "cv.education": "Education",
+    "cv.contacts": "Contacts",
+    "cv.present": "present",
+    "footer.builtWith": "Built with Astro & Tailwind CSS",
+    "404.title": "404 — Page not found",
+    "404.text": "This level does not exist. Try going back home.",
+  },
+  lt: {
+    "site.title": "ohwelleu",
+    "site.description":
+      "Asmeninis Karolio puslapis, CV ir tinklaraštis — interneto kūrimas, testų automatizavimas ir eksperimentai.",
+    "nav.home": "pradžia",
+    "nav.blog": "blogas",
+    "nav.cv": "cv",
+    "theme.toggle": "Perjungti tamsią / šviesią temą",
+    "lang.switch": "Pakeisti kalbą",
+    "home.greeting": "Labas, pasauli!",
+    "home.intro":
+      "Kuriu svetaines, automatizuoju testus ir eksperimentuoju su DI įrankiais. Čia — mano interneto kampelis.",
+    "home.latest": "Naujausi įrašai",
+    "home.allPosts": "Visi įrašai",
+    "home.readCv": "Peržiūrėti CV",
+    "blog.title": "Blogas",
+    "blog.description":
+      "Užrašai apie interneto kūrimą, testavimą ir programavimą su DI.",
+    "blog.empty": "Įrašų dar nėra. Užsukite vėliau.",
+    "blog.readMore": "skaityti",
+    "blog.back": "Atgal į blogą",
+    "blog.published": "Paskelbta",
+    "blog.updated": "Atnaujinta",
+    "blog.readingTime": "min. skaitymo",
+    "cv.title": "Gyvenimo aprašymas",
+    "cv.description": "Patirtis, įgūdžiai ir kontaktai.",
+    "cv.experience": "Patirtis",
+    "cv.skills": "Įgūdžiai",
+    "cv.education": "Išsilavinimas",
+    "cv.contacts": "Kontaktai",
+    "cv.present": "dabar",
+    "footer.builtWith": "Sukurta su Astro ir Tailwind CSS",
+    "404.title": "404 — Puslapis nerastas",
+    "404.text": "Tokio lygio nėra. Grįžkite į pradžią.",
+  },
+} as const satisfies Record<Lang, Record<string, string>>;
+
+export type UiKey = keyof (typeof ui)["en"];

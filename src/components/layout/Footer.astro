@@ -1,0 +1,30 @@
+---
+import { getLangFromUrl, useTranslations } from "@/i18n/utils";
+import { profile } from "@/data/profile";
+import PixelIcon from "@/components/ui/PixelIcon.astro";
+
+const t = useTranslations(getLangFromUrl(Astro.url));
+const year = new Date().getFullYear();
+---
+
+<footer class="mt-16 border-t-4 border-line">
+  <div
+    class="mx-auto flex max-w-4xl flex-col gap-3 px-4 py-6 text-xs text-muted sm:flex-row sm:items-center sm:justify-between"
+  >
+    <p>&copy; {year} {profile.name} · {t("footer.builtWith")}</p>
+    <ul class="flex items-center gap-4">
+      {
+        profile.links.map(({ label, href }) => (
+          <li>
+            <a href={href} class="hover:text-accent" rel="me noopener">
+              {label}
+            </a>
+          </li>
+        ))
+      }
+      <li>
+        <PixelIcon name="heart" class="size-3 text-accent-2" />
+      </li>
+    </ul>
+  </div>
+</footer>

@@ -1,0 +1,26 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+type Props = HTMLAttributes<"div"> & {
+  as?: "div" | "article" | "section";
+  accent?: boolean;
+};
+
+const {
+  as: Tag = "div",
+  accent = false,
+  class: className,
+  ...rest
+} = Astro.props;
+---
+
+<Tag
+  class:list={[
+    "m-1 bg-surface p-5 sm:p-6",
+    accent ? "pixel-border-accent" : "pixel-border",
+    className,
+  ]}
+  {...rest}
+>
+  <slot />
+</Tag>

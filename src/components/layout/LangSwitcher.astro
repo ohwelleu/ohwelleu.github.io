@@ -1,0 +1,32 @@
+---
+import { locales } from "@/i18n/config";
+import { getLangFromUrl, switchLangPath, useTranslations } from "@/i18n/utils";
+
+const current = getLangFromUrl(Astro.url);
+const t = useTranslations(current);
+---
+
+<nav aria-label={t("lang.switch")}>
+  <ul class="flex items-center gap-1 text-xs">
+    {
+      locales.map((lang) => (
+        <li>
+          <a
+            href={switchLangPath(Astro.url, lang)}
+            hreflang={lang}
+            lang={lang}
+            aria-current={lang === current ? "true" : undefined}
+            class:list={[
+              "px-1.5 py-1 uppercase",
+              lang === current
+                ? "text-accent text-glow"
+                : "text-muted hover:text-fg",
+            ]}
+          >
+            {lang}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>

@@ -1,0 +1,20 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PostList from "@/components/blog/PostList.astro";
+import SectionTitle from "@/components/ui/SectionTitle.astro";
+import type { Lang } from "@/i18n/config";
+import { langStaticPaths, useTranslations } from "@/i18n/utils";
+import { getPosts } from "@/lib/posts";
+
+export const getStaticPaths = langStaticPaths;
+
+const lang = Astro.params.lang as Lang;
+const t = useTranslations(lang);
+const posts = await getPosts(lang);
+---
+
+<BaseLayout title={t("blog.title")} description={t("blog.description")}>
+  <SectionTitle as="h1">{t("blog.title")}</SectionTitle>
+  <p class="mt-4 mb-10 text-muted">{t("blog.description")}</p>
+  <PostList posts={posts} lang={lang} />
+</BaseLayout>

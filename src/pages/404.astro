@@ -1,0 +1,31 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PixelButton from "@/components/ui/PixelButton.astro";
+import PixelIcon from "@/components/ui/PixelIcon.astro";
+import SectionTitle from "@/components/ui/SectionTitle.astro";
+import TerminalWindow from "@/components/ui/TerminalWindow.astro";
+import { locales } from "@/i18n/config";
+import { localizePath, useTranslations } from "@/i18n/utils";
+---
+
+<BaseLayout title="404">
+  <div class="grid gap-8">
+    {
+      locales.map((lang) => {
+        const t = useTranslations(lang);
+        return (
+          <TerminalWindow title={`~/${lang}/404`}>
+            <div lang={lang}>
+              <SectionTitle as="h1">{t("404.title")}</SectionTitle>
+              <p class="mt-4 text-muted">{t("404.text")}</p>
+              <PixelButton href={localizePath(lang)} class="mt-6">
+                <PixelIcon name="arrowLeft" class="size-3" />
+                {t("nav.home")}
+              </PixelButton>
+            </div>
+          </TerminalWindow>
+        );
+      })
+    }
+  </div>
+</BaseLayout>

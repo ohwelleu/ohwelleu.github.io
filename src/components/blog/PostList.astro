@@ -1,0 +1,28 @@
+---
+import type { Lang } from "@/i18n/config";
+import { useTranslations } from "@/i18n/utils";
+import type { Post } from "@/lib/posts";
+import PostCard from "./PostCard.astro";
+
+interface Props {
+  posts: Post[];
+  lang: Lang;
+}
+
+const { posts, lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+{
+  posts.length > 0 ? (
+    <ul class="grid gap-6">
+      {posts.map((post) => (
+        <li>
+          <PostCard post={post} lang={lang} />
+        </li>
+      ))}
+    </ul>
+  ) : (
+    <p class="text-muted">{t("blog.empty")}</p>
+  )
+}

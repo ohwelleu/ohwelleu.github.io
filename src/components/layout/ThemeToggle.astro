@@ -1,0 +1,28 @@
+---
+import { getLangFromUrl, useTranslations } from "@/i18n/utils";
+import PixelIcon from "@/components/ui/PixelIcon.astro";
+
+const t = useTranslations(getLangFromUrl(Astro.url));
+---
+
+<button
+  type="button"
+  data-theme-toggle
+  class="m-1 grid size-9 place-items-center bg-surface pixel-border hover:text-accent"
+  aria-label={t("theme.toggle")}
+  title={t("theme.toggle")}
+>
+  <PixelIcon name="moon" class="size-4 dark:hidden" />
+  <PixelIcon name="sun" class="hidden size-4 dark:block" />
+</button>
+
+<script>
+  document
+    .querySelectorAll<HTMLButtonElement>("[data-theme-toggle]")
+    .forEach((button) => {
+      button.addEventListener("click", () => {
+        const isDark = document.documentElement.classList.toggle("dark");
+        localStorage.setItem("theme", isDark ? "dark" : "light");
+      });
+    });
+</script>

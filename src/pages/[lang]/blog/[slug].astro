@@ -1,0 +1,30 @@
+---
+import type { GetStaticPaths } from "astro";
+import { render } from "astro:content";
+import PostLayout from "@/layouts/PostLayout.astro";
+import { locales, type Lang } from "@/i18n/config";
+import { getPostSlug, getPosts, type Post } from "@/lib/posts";
+
+export const getStaticPaths = (async () => {
+  const postsByLang = await Promise.all(locales.map((lang) => getPosts(lang)));
+
+  return postsByLang.flatMap((posts, index) =>
+    posts.map((post) => ({
+      params: { lang: locales[index], slug: getPostSlug(post) },
+      props: { post },
+    })),
+  );
+}) satisfies GetStaticPaths;
+
+interface Props {
+  post: Post;
+}
+
+const { post } = Astro.props;
+const lang = Astro.params.lang as Lang;
+const { Content } = await render(post);
+---
+
+<PostLayout post={post} lang={lang}>
+  <Content />
+</PostLayout>

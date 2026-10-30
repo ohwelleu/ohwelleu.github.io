@@ -1,0 +1,61 @@
+---
+import { getLangFromUrl, localizePath, useTranslations } from "@/i18n/utils";
+import { navItems } from "@/lib/nav";
+import { profile } from "@/data/profile";
+import LangSwitcher from "./LangSwitcher.astro";
+import ThemeToggle from "./ThemeToggle.astro";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const homePath = localizePath(lang);
+
+function isActive(path: string): boolean {
+  const href = localizePath(lang, path);
+  return href === homePath
+    ? Astro.url.pathname === href
+    : Astro.url.pathname.startsWith(href);
+}
+---
+
+<header class="border-b-4 border-line">
+  <div
+    class="mx-auto flex max-w-4xl flex-wrap items-center justify-between gap-x-6 gap-y-3 px-4 py-4"
+  >
+    <a
+      href={homePath}
+      class="font-pixel text-xs text-accent text-glow sm:text-sm"
+    >
+      &gt; {profile.handle}<span class="cursor-blink">_</span>
+    </a>
+
+    <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
+      <nav aria-label="Main">
+        <ul class="flex gap-1 text-sm">
+          {
+            navItems.map(({ key, path }) => {
+              const active = isActive(path);
+              return (
+                <li>
+                  <a
+                    href={localizePath(lang, path)}
+                    aria-current={active ? "page" : undefined}
+                    class:list={[
+                      "px-1 py-1",
+                      active
+                        ? "text-accent text-glow"
+                        : "text-muted hover:text-fg",
+                    ]}
+                  >
+                    {active ? `[${t(key)}]` : t(key)}
+                  </a>
+                </li>
+              );
+            })
+          }
+        </ul>
+      </nav>
+      <LangSwitcher />
+      <ThemeToggle />
+    </div>
+  </div>
+</header>

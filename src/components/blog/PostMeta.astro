@@ -1,0 +1,23 @@
+---
+import type { Lang } from "@/i18n/config";
+import { useTranslations } from "@/i18n/utils";
+import { getReadingTime, type Post } from "@/lib/posts";
+import FormattedDate from "@/components/ui/FormattedDate.astro";
+
+interface Props {
+  post: Post;
+  lang: Lang;
+  class?: string;
+}
+
+const { post, lang, class: className } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<p
+  class:list={["flex flex-wrap gap-x-3 gap-y-1 text-xs text-muted", className]}
+>
+  <FormattedDate date={post.data.pubDate} lang={lang} />
+  <span aria-hidden="true">·</span>
+  <span>{getReadingTime(post)} {t("blog.readingTime")}</span>
+</p>

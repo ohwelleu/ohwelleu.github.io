@@ -1,0 +1,66 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PostList from "@/components/blog/PostList.astro";
+import PixelButton from "@/components/ui/PixelButton.astro";
+import PixelIcon from "@/components/ui/PixelIcon.astro";
+import SectionTitle from "@/components/ui/SectionTitle.astro";
+import TerminalWindow from "@/components/ui/TerminalWindow.astro";
+import { profile } from "@/data/profile";
+import type { Lang } from "@/i18n/config";
+import { langStaticPaths, localizePath, useTranslations } from "@/i18n/utils";
+import { getPosts } from "@/lib/posts";
+
+export const getStaticPaths = langStaticPaths;
+
+const LATEST_POSTS = 3;
+
+const lang = Astro.params.lang as Lang;
+const t = useTranslations(lang);
+const posts = (await getPosts(lang)).slice(0, LATEST_POSTS);
+---
+
+<BaseLayout>
+  <TerminalWindow title={`~/${profile.handle} — whoami`}>
+    <p class="text-sm text-muted">
+      <span class="text-accent">$</span> whoami
+    </p>
+    <h1
+      class="mt-4 font-pixel text-xl leading-relaxed text-accent text-glow sm:text-3xl"
+    >
+      {t("home.greeting")}
+    </h1>
+    <p
+      class="mt-4 font-pixel text-[0.65rem] leading-relaxed text-accent-2 sm:text-xs"
+    >
+      {profile.name} · {profile.role[lang]}
+    </p>
+    <p class="mt-6 max-w-2xl">{t("home.intro")}</p>
+    <p class="mt-6 text-sm text-muted">
+      <span class="text-accent">$</span>
+      <span class="cursor-blink">█</span>
+    </p>
+
+    <div class="mt-8 flex flex-wrap gap-4">
+      <PixelButton href={localizePath(lang, "/cv")}>
+        {t("home.readCv")}
+        <PixelIcon name="arrowRight" class="size-3" />
+      </PixelButton>
+      <PixelButton href={localizePath(lang, "/blog")} variant="ghost">
+        {t("nav.blog")}
+      </PixelButton>
+    </div>
+  </TerminalWindow>
+
+  <section class="mt-16">
+    <div class="mb-6 flex flex-wrap items-baseline justify-between gap-4">
+      <SectionTitle>{t("home.latest")}</SectionTitle>
+      <a
+        href={localizePath(lang, "/blog")}
+        class="text-xs text-accent-2 hover:underline"
+      >
+        {t("home.allPosts")} →
+      </a>
+    </div>
+    <PostList posts={posts} lang={lang} />
+  </section>
+</BaseLayout>

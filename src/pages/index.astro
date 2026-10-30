@@ -1,0 +1,26 @@
+---
+import { defaultLang, locales } from "@/i18n/config";
+import { localizePath } from "@/i18n/utils";
+
+const fallback = localizePath(defaultLang);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Redirecting…</title>
+    <meta name="robots" content="noindex" />
+    <meta http-equiv="refresh" content={`0; url=${fallback}`} />
+    <link rel="canonical" href={fallback} />
+    <script is:inline define:vars={{ locales, fallback }}>
+      const preferred = navigator.languages
+        .map((tag) => tag.slice(0, 2).toLowerCase())
+        .find((lang) => locales.includes(lang));
+      location.replace(preferred ? `/${preferred}/` : fallback);
+    </script>
+  </head>
+  <body>
+    <a href={fallback}>Continue</a>
+  </body>
+</html>
