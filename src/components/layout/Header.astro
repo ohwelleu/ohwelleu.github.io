@@ -1,13 +1,17 @@
 ---
 import { getLangFromUrl, localizePath, useTranslations } from "@/i18n/utils";
 import { navItems } from "@/lib/nav";
-import { profile } from "@/data/profile";
+import { getPostSlug, getPosts } from "@/lib/posts";
+import Logo from "@/components/ui/Logo.astro";
+import Ticker from "@/components/ui/Ticker.astro";
 import LangSwitcher from "./LangSwitcher.astro";
 import ThemeToggle from "./ThemeToggle.astro";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const homePath = localizePath(lang);
+
+const [latest] = await getPosts(lang);
 
 function isActive(path: string): boolean {
   const href = localizePath(lang, path);
@@ -17,20 +21,22 @@ function isActive(path: string): boolean {
 }
 ---
 
-<header class="border-b-4 border-line">
+<header class="fixed inset-x-0 top-3 z-50 flex justify-center px-3 sm:top-4">
+  <!-- Always-dark floating bar, in both themes -->
   <div
-    class="mx-auto flex max-w-4xl flex-wrap items-center justify-between gap-x-6 gap-y-3 px-4 py-4"
+    class="dark w-full max-w-xl rounded-xl border border-white/10 bg-ink p-1.5 text-fg shadow-xl shadow-black/20"
   >
-    <a
-      href={homePath}
-      class="font-pixel text-xs text-accent text-glow sm:text-sm"
-    >
-      &gt; {profile.handle}<span class="cursor-blink">_</span>
-    </a>
+    <div class="flex items-center gap-1">
+      <a
+        href={homePath}
+        class="grid size-9 shrink-0 place-items-center rounded-md hover:bg-surface"
+        aria-label={t("nav.home")}
+      >
+        <Logo class="size-6" />
+      </a>
 
-    <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
-      <nav aria-label="Main">
-        <ul class="flex gap-1 text-sm">
+      <nav aria-label={t("nav.main")} class="flex-1">
+        <ul class="flex">
           {
             navItems.map(({ key, path }) => {
               const active = isActive(path);
@@ -40,13 +46,11 @@ function isActive(path: string): boolean {
                     href={localizePath(lang, path)}
                     aria-current={active ? "page" : undefined}
                     class:list={[
-                      "px-1 py-1",
-                      active
-                        ? "text-accent text-glow"
-                        : "text-muted hover:text-fg",
+                      "block rounded-md px-3 py-2 eyebrow",
+                      active ? "bg-surface" : "text-muted hover:text-fg",
                     ]}
                   >
-                    {active ? `[${t(key)}]` : t(key)}
+                    {t(key)}
                   </a>
                 </li>
               );
@@ -54,8 +58,19 @@ function isActive(path: string): boolean {
           }
         </ul>
       </nav>
+
       <LangSwitcher />
       <ThemeToggle />
     </div>
+
+    {
+      latest && (
+        <Ticker
+          href={localizePath(lang, `/blog/${getPostSlug(latest)}`)}
+          text={`${t("ticker.latest")}: ${latest.data.title}`}
+          class="mt-1.5 rounded-sm bg-fg py-0.5 eyebrow text-[0.6875rem] text-ink"
+        />
+      )
+    }
   </div>
 </header>

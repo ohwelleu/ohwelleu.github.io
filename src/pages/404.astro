@@ -1,31 +1,35 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import PixelButton from "@/components/ui/PixelButton.astro";
-import PixelIcon from "@/components/ui/PixelIcon.astro";
-import SectionTitle from "@/components/ui/SectionTitle.astro";
-import TerminalWindow from "@/components/ui/TerminalWindow.astro";
+import Button from "@/components/ui/Button.astro";
+import Container from "@/components/ui/Container.astro";
+import Eyebrow from "@/components/ui/Eyebrow.astro";
+import Icon from "@/components/ui/Icon.astro";
 import { locales } from "@/i18n/config";
 import { localizePath, useTranslations } from "@/i18n/utils";
 ---
 
 <BaseLayout title="404">
-  <div class="grid gap-8">
-    {
-      locales.map((lang) => {
-        const t = useTranslations(lang);
-        return (
-          <TerminalWindow title={`~/${lang}/404`}>
-            <div lang={lang}>
-              <SectionTitle as="h1">{t("404.title")}</SectionTitle>
-              <p class="mt-4 text-muted">{t("404.text")}</p>
-              <PixelButton href={localizePath(lang)} class="mt-6">
-                <PixelIcon name="arrowLeft" class="size-3" />
-                {t("nav.home")}
-              </PixelButton>
+  <Container class="pt-36 pb-24 sm:pt-44">
+    <Eyebrow>Error / 404</Eyebrow>
+    <div class="mt-10 grid gap-16 md:grid-cols-2">
+      {
+        locales.map((lang) => {
+          const t = useTranslations(lang);
+          return (
+            <div lang={lang} class="border-t border-line pt-8">
+              <Eyebrow>{lang}</Eyebrow>
+              <h1 class="mt-4 text-5xl leading-none font-medium tracking-tight">
+                {t("404.title")}
+              </h1>
+              <p class="mt-6 text-lg text-muted">{t("404.text")}</p>
+              <Button href={localizePath(lang)} class="mt-8">
+                <Icon name="arrowLeft" class="size-3.5" />
+                {t("404.home")}
+              </Button>
             </div>
-          </TerminalWindow>
-        );
-      })
-    }
-  </div>
+          );
+        })
+      }
+    </div>
+  </Container>
 </BaseLayout>

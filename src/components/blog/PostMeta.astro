@@ -2,6 +2,7 @@
 import type { Lang } from "@/i18n/config";
 import { useTranslations } from "@/i18n/utils";
 import { getReadingTime, type Post } from "@/lib/posts";
+import Eyebrow from "@/components/ui/Eyebrow.astro";
 import FormattedDate from "@/components/ui/FormattedDate.astro";
 
 interface Props {
@@ -14,10 +15,8 @@ const { post, lang, class: className } = Astro.props;
 const t = useTranslations(lang);
 ---
 
-<p
-  class:list={["flex flex-wrap gap-x-3 gap-y-1 text-xs text-muted", className]}
->
+<Eyebrow class={className}>
   <FormattedDate date={post.data.pubDate} lang={lang} />
-  <span aria-hidden="true">·</span>
-  <span>{getReadingTime(post)} {t("blog.readingTime")}</span>
-</p>
+  <span aria-hidden="true"> · </span>
+  {`${getReadingTime(post)} ${t("blog.readingTime")}`}
+</Eyebrow>

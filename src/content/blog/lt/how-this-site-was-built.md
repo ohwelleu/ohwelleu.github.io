@@ -1,36 +1,66 @@
 ---
-title: "Kaip sukurtas šis puslapis"
-description: "Astro, Tailwind CSS, Markdown, GitHub Pages — ir DI agentas, kuris iš kelių užklausų parašė didžiąją dalį kodo."
+title: "Trys užklausos ir vienas persigalvojimas"
+description: "Vakare — tuščias aplankas, tą pačią naktį — veikiantis dvikalbis blogas. Parašiau tris užklausas. Visa kita padarė DI agentas — įskaitant pirmąjį dizainą, kurį išmečiau."
 pubDate: 2026-10-30
-tags: ["astro", "tailwind", "di", "github-pages"]
+tags: ["di", "claude-code", "github-pages", "procesas"]
 ---
 
-Labas, pasauli! Tai pirmasis įrašas mano naujame asmeniniame puslapyje. Vietoj įprasto „lorem ipsum“ papasakosiu, kaip buvo sukurtas pats puslapis: kokie įrankiai naudoti ir kaip didžiąją darbo dalį atliko DI agentas.
+Šis puslapis per vieną vakarą virto iš tuščio aplanko į veikiantį dvikalbį blogą. Kodo nerašiau. Parašiau tris užklausas — trumpas, su klaidomis, pusė jų ne ta kalba — o [Claude Code](https://claude.com/claude-code), veikiantis T3 Code aplinkoje, padarė visa kita: parinko įrankius, parašė komponentus, sukūrė GitHub repozitoriją, sukonfigūravo publikavimą ir atidarė pull request'us, kuriuos turėjau peržiūrėti.
 
-## Idėja
+Tai sąžiningas žurnalas, kaip viskas vyko. Įskaitant momentą, kai pažiūrėjau į rezultatą ir paprašiau visai ko kito.
 
-Norėjau vienos vietos trims dalykams:
+## „Ar gali padaryti viską?“
 
-- trumpam **CV**, kurį galėčiau nusiųsti,
-- **blogui**, kuriame kiekvienas įrašas yra tiesiog Markdown failas,
-- **dviem kalboms** — anglų ir lietuvių.
+Pirmoji užklausa buvo klausimas, o ne specifikacija:
 
-Puslapis turėjo atrodyti smagiai: **retro pikselių meno „hakerio“** stilius su **tamsia ir šviesia** temomis. O kodas — likti tvarkingas, su mažais pakartotinai naudojamais komponentais ir pagalbinėmis funkcijomis, kad vėliau būtų lengva plėsti.
+> Ok in .ai folder I want to create new project. It will be my personal page hosted in github, like cv or more like blog. Can you do all work? Or i will need to make some settings manual?
 
-## Technologijos
+Atsakymas buvo stebėtinai konkretus. Beveik viską galima automatizuoti — mano GitHub CLI jau buvo prisijungęs su reikiamomis teisėmis. Manęs reikėjo tik trims dalykams:
 
-| Dalis             | Įrankis                                                               |
-| ----------------- | --------------------------------------------------------------------- |
-| Svetainės kūrimas | [Astro](https://astro.build) — statinis HTML, be JS pagal nutylėjimą  |
-| Stiliai           | [Tailwind CSS v4](https://tailwindcss.com) + Typography įskiepis      |
-| Turinys           | Markdown failai Astro turinio kolekcijose, tikrinami su Zod           |
-| Šriftai           | _Press Start 2P_ antraštėms, _JetBrains Mono_ tekstui                 |
-| Talpinimas        | GitHub Pages, diegiama su GitHub Actions po kiekvieno `push` į `main` |
-| Kodo kokybė       | TypeScript (griežtas režimas), `astro check`, Prettier                |
+1. **Turiniui.** Agentas niekaip negalėjo žinoti mano darbo patirties — ir taip ir pasakė, užuot ją išsigalvojęs.
+2. **Viešai repozitorijai.** Nemokamame GitHub plane Pages veikia tik su viešomis repozitorijomis.
+3. **DNS**, bet tik jei kada norėsiu savo domeno.
+
+Tada uždavė keturis klausimus — adresas, karkasas, išvaizda, kalba — prie kiekvieno su rekomenduojamu variantu. Tą akimirką nustojau abejoti, ar tai pavyks.
+
+## Specifikacija vienu atodūsiu
+
+> Language both, theme dark light, theme should be retro pixel art hacker like. Yes every blog post should be mark down. Note make code look clean use components helpers and etc also i like tailwind. For demo purpose create forst blog post how this page was created technology used and ai for prompts
+
+Ką gavau:
+
+- svetainę anglų ir lietuvių kalbomis, su kalbos perjungikliu, kuris palieka tame pačiame puslapyje;
+- neoninę žalią ant juodo, CRT skenavimo linijas, mirksintį kursorių, pikselinį _Press Start 2P_ šriftą;
+- kiekvieną įrašą kaip Markdown failą, tikrinamą pagal schemą kūrimo metu;
+- GitHub Actions eigą, kuri po kiekvieno `push` patikrina tipus, sukuria svetainę ir ją paskelbia.
+
+Įdomiausia buvo ne rezultatas, o sprendimai pakeliui. Naujausiai karkaso versijai reikėjo naujesnio Node.js nei mano kompiuteryje, tad agentas pasirinko ankstesnę pagrindinę versiją, užuot gadinęs mano aplinką, — ir tada paleido tipų tikrinimą su naujesniu Node, kad įrodytų, jog kodas švarus. Prieš atidarydamas pull request'ą jis paleido svetainę lokaliai, perėjo ją naršykle be ekrano, padarė ekrano nuotraukas abiem temomis ir telefono dydžio ekrane, paspaudė temos ir kalbos jungiklius, kad įsitikintų, jog jie tikrai veikia.
+
+Dar jis pažymėjo trūkumą, apie kurį niekas neklausė: pikseliniame šrifte nėra raidės **ų**. Dvikalbėje svetainėje tai ne smulkmena.
+
+Sujungiau. Buvo smagu. Ir atrodė lygiai taip pat, kaip kiekvienas kitas retro terminalo portfolio internete.
+
+## Persigalvojimas
+
+> https://www.contentarchitecture.dev/?ref=onepagelove naudok geriau toki stilių, pašalink astro ir pan pašalink emai nerašk lėkštai, cv dali išvis pašalink kolkas tbd
+
+Viena nuoroda padarė daugiau nei visa mano ankstesnė būdvardžių pastraipa. Agentas atsidarė pavyzdį naršyklėje be ekrano, nufotografavo jį dalimis ir tiesiai iš puslapio nuskaitė apskaičiuotus stilius: šriftų šeimas, dydžius, storius, spalvas. Tada perstatė visą dizaino sistemą pagal tai, ką rado:
+
+- šiltas popieriaus fonas, beveik juodas rašalas ir viena oranžinė spalva, naudojama taupiai;
+- **Geist** skaitymui, **Geist Mono** mažomis didžiosiomis raidėmis — etiketėms, datoms ir numeriams;
+- numeruotos sekcijos — `01 /` — vietoj dekoracijų;
+- plaukiojanti, visada tamsi navigacija su slenkančiu naujausio įrašo pavadinimu;
+- lėtai besisukantys teksto žiedai ten, kur anksčiau buvo pikseliai.
+
+CV puslapio neliko, kol neturiu ką ten tikro įdėti. Neliko ir išgalvoto el. pašto adreso. O tekstai — įskaitant šį įrašą — perrašyti nuo nulio, nes „kuriu dalykus internetui“ apie nieką nieko nepasako.
+
+## Kas viduje
+
+Technologijos sąmoningai nuobodžios — kad įdomus būtų turinys.
 
 ### Įrašai — Markdown failai
 
-Kiekvienas įrašas yra failas `src/content/blog/<kalba>/<slug>.md`. Antraštės duomenys (frontmatter) tikrinami pagal schemą, todėl klaida datoje ar trūkstamas pavadinimas sustabdo kūrimą, o ne sugadina puslapį:
+Kiekvienas įrašas gyvena `src/content/blog/<kalba>/<slug>.md`, o vertimas — tiesiog tas pats failo pavadinimas kitos kalbos aplanke. Antraštės duomenys tikrinami pagal schemą, todėl klaida datoje sustabdo kūrimą, o ne tyliai sugadina puslapį:
 
 ```ts
 const blog = defineCollection({
@@ -45,58 +75,28 @@ const blog = defineCollection({
 });
 ```
 
-Išverstas įrašas — tas pats failo pavadinimas kitos kalbos aplanke. Naujam įrašui tereikia parašyti Markdown ir padaryti `push`.
+### Vienas žodynas kiekvienai kalbai
 
-### Dvi kalbos
-
-Kiekvienas puslapis yra po `/en/` arba `/lt/`. Visi sąsajos tekstai laikomi viename žodyne, o maža pagalbinė funkcija grąžina reikiamą tekstą:
+Visi sąsajos tekstai — viename tipizuotame faile. Pamiršai išversti raktą — TypeScript praneša anksčiau, nei tai pamato lankytojas:
 
 ```ts
 const t = useTranslations(lang);
-t("nav.blog"); // "blog" arba "blogas"
+t("hero.cta"); // "Read the blog" / "Skaityti blogą"
 ```
 
-Pagrindinis adresas `/` pagal naršyklės kalbą nukreipia į tinkamą versiją.
+### Temos — tik CSS kintamieji
 
-### Retro išvaizda, dvi temos
+Visa paletė — septyni CSS kintamieji. Klasė `.dark` pakeičia juos visus, o kadangi tai tik klasė, ją gali nešioti bet kuris elementas. Taip navigacija ir skydelis su teksto žiedais lieka tamsūs net šviesioje temoje: jie patys „apsirengę“ tamsiąja tema. Mažas skriptas dar prieš pirmą piešimą parenka išsaugotą temą, todėl puslapis niekada nesumirksi.
 
-Spalvos yra CSS kintamieji, kuriuos Tailwind paverčia klasėmis, pvz. `bg-surface` ar `text-accent`. Klasė `.dark` ant `<html>` pakeičia visą paletę. Mažas skriptas paleidžiamas dar prieš pirmą piešimą, todėl puslapis niekada nesumirksi ne ta tema.
+### Publikavimas — vienas pull request'as
 
-Pikselių jausmą kuria kelios savos klasės:
+Pull request'ams paleidžiamas formatavimo patikrinimas, tipų tikrinimas ir pilnas kūrimas. Sujungus į `main`, svetainė paskelbiama GitHub Pages. Jokių serverių, jokių sąskaitų.
 
-- `pixel-border` — rėmelis su „laipteliais“ kampuose, padarytas iš keturių `box-shadow`,
-- `crt` — vos matomos skenavimo linijos tamsioje temoje,
-- `text-glow` — žalias fosforo švytėjimas antraštėse,
-- ikonos, nupieštos kaip teksto tinklelis (`#` — pikselis) ir paverstos ryškiu SVG.
+## Ką patarčiau, jei bandysite patys
 
-### Diegimas
+1. **Rodykite, o ne apibūdinkite.** „Retro pixel hacker theme“ davė tiksliai tai, ko prašiau. Nuoroda į patikusią svetainę davė tai, ko norėjau.
+2. **Trumpos užklausos — gerai.** Manosios buvo su klaidomis ir keitė kalbą sakinio viduryje. Svarbu buvo pasakyti, _ko_ noriu, o ne _kaip_ tai padaryti.
+3. **Išmesti darbą dabar pigu.** Visą pirmąjį dizainą pakeisti užteko vieno sakinio. Tai keičia, kiek drąsiai bandai.
+4. **Skaitykite pakeitimus.** Kodą rašė agentas, bet svetainė vis tiek mano. Peržiūrėdamas pull request'ą žinau, kas iš tikrųjų viduje.
 
-GitHub Actions darbo eiga įdiegia priklausomybes, patikrina tipus, sukuria svetainę ir paskelbia `dist/` į GitHub Pages. Pull request'ams paleidžiami tie patys patikrinimai ir Prettier formatavimo patikra.
-
-## Sukurta su DI
-
-Visas projektas sukurtas per vieną sesiją su **Claude Code** (T3 Code aplinkoje). Paprastais žodžiais aprašiau, ko noriu, o agentas suplanavo struktūrą, parinko versijas, veikiančias su mano Node.js, parašė komponentus, sukūrė GitHub repozitoriją, Pages ir CI, ir atidarė pull request'ą.
-
-Štai mano užklausos, tokios, kokias parašiau (angliškai):
-
-> Ok in .ai folder I want to create new project. It will be my personal page hosted in github, like cv or more like blog. Can you do all work? Or i will need to make some settings manual?
-
-Agentas atsakė, kad gali padaryti beveik viską. Iš manęs reikėjo tik trijų dalykų: tikrų CV duomenų, sutikimo, kad repozitorija būtų vieša (nemokamam GitHub Pages to reikia), ir DNS nustatymų, jei kada norėsiu savo domeno. Tada:
-
-> Language both, theme dark light, theme should be retro pixel art hacker like. Yes every blog post should be mark down. Note make code look clean use components helpers and etc also i like tailwind. For demo purpose create forst blog post how this page was created technology used and ai for prompts
-
-Ši antra užklausa sukūrė svetainę, kurią dabar skaitote, kartu ir šį įrašą. Trumpos ir netvarkingos užklausos veikė puikiai. Svarbiausia buvo aiškiai pasakyti, ko noriu, o ne kaip tai padaryti.
-
-### Patarimai norintiems pabandyti
-
-1. **Sakykite, ko norite, o ne kaip tai padaryti.** Užteko „retro pixel hacker theme“ — šriftus ir spalvas agentas parinko pats.
-2. **Paminėkite savo pageidavimus.** Pasakiau, kad man patinka Tailwind ir tvarkingi komponentai, — tą ir gavau.
-3. **Peržiūrėkite pull request'ą.** Kodą rašė DI, bet svetainė vis tiek mano. Skaitydamas pakeitimus sužinau, kas viduje.
-
-## Kas toliau
-
-- Užpildyti CV tikrais duomenimis.
-- Rašyti daugiau įrašų apie testų automatizavimą, nuorodų tikrinimą ir DI įrankius.
-- Galbūt savas domenas.
-
-Ačiū, kad skaitėte! Išeitinis kodas — [GitHub](https://github.com/ohwelleu/ohwelleu.github.io).
+Išeitinis kodas — [GitHub](https://github.com/ohwelleu/ohwelleu.github.io), kartu su pull request'ais, tad galite perskaityti, ką tiksliai parašė agentas ir ką paprašiau pakeisti.

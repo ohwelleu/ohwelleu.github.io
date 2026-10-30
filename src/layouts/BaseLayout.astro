@@ -18,9 +18,9 @@ const lang = getLangFromUrl(Astro.url);
   <head>
     <BaseHead {...Astro.props} />
   </head>
-  <body class="crt flex flex-col">
+  <body class="flex flex-col">
     <Header />
-    <main class="mx-auto w-full max-w-4xl flex-1 px-4 py-10 sm:py-14">
+    <main class="flex-1">
       <slot />
     </main>
     <Footer />

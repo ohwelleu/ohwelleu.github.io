@@ -4,7 +4,9 @@ import { formatDate, localizePath, useTranslations } from "@/i18n/utils";
 import type { Post } from "@/lib/posts";
 import BaseLayout from "./BaseLayout.astro";
 import PostMeta from "@/components/blog/PostMeta.astro";
-import PixelIcon from "@/components/ui/PixelIcon.astro";
+import Container from "@/components/ui/Container.astro";
+import Eyebrow from "@/components/ui/Eyebrow.astro";
+import Icon from "@/components/ui/Icon.astro";
 import TagList from "@/components/ui/TagList.astro";
 
 interface Props {
@@ -19,36 +21,38 @@ const t = useTranslations(lang);
 
 <BaseLayout title={title} description={description}>
   <article>
-    <a
-      href={localizePath(lang, "/blog")}
-      class="inline-flex items-center gap-2 text-xs text-muted hover:text-accent"
-    >
-      <PixelIcon name="arrowLeft" class="size-3" />
-      {t("blog.back")}
-    </a>
-
-    <header class="mt-8 border-b-4 border-dashed border-line pb-8">
-      <PostMeta post={post} lang={lang} />
-      <h1
-        class="mt-4 font-pixel text-lg leading-relaxed text-accent text-glow sm:text-2xl"
+    <Container size="text" class="pt-36 sm:pt-44">
+      <a
+        href={localizePath(lang, "/blog")}
+        class="inline-flex items-center gap-2 eyebrow text-muted hover:text-fg"
       >
-        {title}
-      </h1>
-      <p class="mt-4 text-muted">{description}</p>
-      {
-        updatedDate && (
-          <p class="mt-2 text-xs text-muted">
-            {t("blog.updated")}: {formatDate(updatedDate, lang)}
-          </p>
-        )
-      }
-      <div class="mt-6">
-        <TagList tags={tags} />
-      </div>
-    </header>
+        <Icon name="arrowLeft" class="size-3.5" />
+        {t("blog.back")}
+      </a>
 
-    <div class="prose mt-10 max-w-none prose-retro">
-      <slot />
-    </div>
+      <header class="mt-10 border-b border-line pb-10">
+        <PostMeta post={post} lang={lang} />
+        <h1
+          class="mt-5 text-4xl leading-[1.05] font-medium tracking-tight text-balance sm:text-6xl"
+        >
+          {title}
+        </h1>
+        <p class="mt-6 text-xl text-muted">{description}</p>
+        {
+          updatedDate && (
+            <Eyebrow class="mt-4">
+              {t("blog.updated")}: {formatDate(updatedDate, lang)}
+            </Eyebrow>
+          )
+        }
+        <div class="mt-8">
+          <TagList tags={tags} />
+        </div>
+      </header>
+
+      <div class="prose prose-lg mt-12 prose-editorial max-w-none">
+        <slot />
+      </div>
+    </Container>
   </article>
 </BaseLayout>

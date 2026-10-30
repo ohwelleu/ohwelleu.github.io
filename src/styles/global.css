@@ -1,49 +1,46 @@
-@import "@fontsource/press-start-2p";
-@import "@fontsource/jetbrains-mono/400.css";
-@import "@fontsource/jetbrains-mono/700.css";
+@import "@fontsource-variable/geist";
+@import "@fontsource-variable/geist-mono";
 @import "tailwindcss";
 
 @plugin "@tailwindcss/typography";
 
-/* Dark mode is driven by a `.dark` class on <html>, set by ThemeScript. */
+/* Dark mode is driven by a `.dark` class — on <html> for the whole page
+   (see ThemeScript) or on a single element for an always-dark panel. */
 @custom-variant dark (&:where(.dark, .dark *));
 
 /* ---------- Palette ---------- */
 
 :root {
-  --bg: #f2efe2;
-  --surface: #fbf9f0;
-  --fg: #1d221c;
-  --muted: #5d6656;
-  --line: #1d221c;
-  --accent: #1f7a3a;
-  --accent-2: #b04a0c;
-  --selection: #c6f0cf;
+  --bg: #f1eee7;
+  --surface: #e7e3da;
+  --ink: #232323;
+  --fg: #232323;
+  --muted: #6e6a63;
+  --line: #d4cfc4;
+  --accent: #ff6b00;
 }
 
 .dark {
-  --bg: #090d0a;
-  --surface: #0f1812;
-  --fg: #c9f5d1;
-  --muted: #6f907a;
-  --line: #2f6b40;
-  --accent: #39ff6a;
-  --accent-2: #ffb000;
-  --selection: #1d4d2a;
+  --bg: #161616;
+  --surface: #262626;
+  --ink: #1f1f1f;
+  --fg: #ece9e2;
+  --muted: #8f8b83;
+  --line: #333230;
+  --accent: #ff7a1a;
 }
 
 @theme inline {
-  --font-pixel: "Press Start 2P", ui-monospace, monospace;
-  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
-  --font-sans: var(--font-mono);
+  --font-sans: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono Variable", ui-monospace, SFMono-Regular, monospace;
 
   --color-bg: var(--bg);
   --color-surface: var(--surface);
+  --color-ink: var(--ink);
   --color-fg: var(--fg);
   --color-muted: var(--muted);
   --color-line: var(--line);
   --color-accent: var(--accent);
-  --color-accent-2: var(--accent-2);
 }
 
 /* ---------- Base ---------- */
@@ -59,87 +56,66 @@
   }
 
   body {
-    @apply min-h-dvh font-mono leading-relaxed;
+    @apply min-h-dvh font-sans leading-relaxed;
   }
 
   ::selection {
-    background: var(--selection);
+    @apply bg-accent text-white;
   }
 
   :focus-visible {
-    @apply outline-2 outline-offset-4 outline-accent outline-dashed;
-  }
-
-  img {
-    image-rendering: pixelated;
+    @apply outline-2 outline-offset-4 outline-accent;
   }
 }
 
-/* ---------- Retro utilities ---------- */
+/* ---------- Utilities ---------- */
 
-/* Border with notched "pixel" corners. Needs a little margin around it. */
-@utility pixel-border {
-  box-shadow:
-    0 -4px 0 0 var(--color-line),
-    0 4px 0 0 var(--color-line),
-    -4px 0 0 0 var(--color-line),
-    4px 0 0 0 var(--color-line);
+/* Small uppercase monospace label used for nav, meta and section numbers. */
+@utility eyebrow {
+  @apply font-mono text-[0.8125rem] leading-snug tracking-wide uppercase;
 }
 
-@utility pixel-border-accent {
-  box-shadow:
-    0 -4px 0 0 var(--color-accent),
-    0 4px 0 0 var(--color-accent),
-    -4px 0 0 0 var(--color-accent),
-    4px 0 0 0 var(--color-accent);
-}
-
-/* Soft phosphor glow on text — only in dark mode. */
-@utility text-glow {
-  .dark & {
-    text-shadow: 0 0 6px
-      color-mix(in srgb, var(--color-accent) 70%, transparent);
-  }
-}
-
-/* CRT scanlines overlay — only in dark mode. */
-@utility crt {
-  .dark &::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 50;
-    background: repeating-linear-gradient(
-      to bottom,
-      transparent 0,
-      transparent 2px,
-      rgb(0 0 0 / 0.18) 3px
-    );
-  }
-}
-
-@utility cursor-blink {
-  animation: blink 1s steps(1) infinite;
+@utility marquee {
+  animation: marquee 40s linear infinite;
 
   @media (prefers-reduced-motion: reduce) {
     animation: none;
   }
 }
 
-@keyframes blink {
-  50% {
-    opacity: 0;
+@utility spin-slow {
+  animation: spin 160s linear infinite;
+  transform-origin: center;
+  transform-box: fill-box;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@utility spin-slow-reverse {
+  animation: spin 120s linear infinite reverse;
+  transform-origin: center;
+  transform-box: fill-box;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
   }
 }
 
 /* ---------- Markdown ---------- */
 
-@utility prose-retro {
+@utility prose-editorial {
   --tw-prose-body: var(--color-fg);
-  --tw-prose-headings: var(--color-accent);
+  --tw-prose-headings: var(--color-fg);
   --tw-prose-lead: var(--color-muted);
-  --tw-prose-links: var(--color-accent-2);
+  --tw-prose-links: var(--color-fg);
   --tw-prose-bold: var(--color-fg);
   --tw-prose-counters: var(--color-muted);
   --tw-prose-bullets: var(--color-accent);
@@ -147,51 +123,53 @@
   --tw-prose-quotes: var(--color-fg);
   --tw-prose-quote-borders: var(--color-accent);
   --tw-prose-captions: var(--color-muted);
-  --tw-prose-code: var(--color-accent-2);
-  --tw-prose-pre-code: var(--color-fg);
-  --tw-prose-pre-bg: var(--color-surface);
+  --tw-prose-code: var(--color-fg);
   --tw-prose-th-borders: var(--color-line);
   --tw-prose-td-borders: var(--color-line);
+  counter-reset: section;
 
-  & :where(h1, h2, h3, h4) {
-    @apply font-pixel leading-snug font-normal;
+  & :where(h2, h3) {
+    @apply font-medium tracking-tight;
   }
 
+  /* Numbered section headings: "01 / Heading" */
   & :where(h2) {
-    @apply text-base;
-  }
-
-  & :where(h3) {
-    @apply text-sm;
+    counter-increment: section;
   }
 
   & :where(h2)::before {
-    content: "# ";
-    color: var(--color-muted);
+    content: counter(section, decimal-leading-zero) " / ";
+    @apply mb-2 block eyebrow text-muted;
   }
 
   & :where(a) {
-    @apply underline decoration-dashed underline-offset-4 hover:decoration-solid;
+    @apply decoration-accent decoration-2 underline-offset-4 hover:text-accent;
+  }
+
+  & :where(:not(pre) > code) {
+    @apply rounded bg-surface px-1.5 py-0.5 font-mono text-[0.875em] font-normal;
+  }
+
+  & :where(:not(pre) > code)::before,
+  & :where(:not(pre) > code)::after {
+    content: none;
   }
 
   & :where(pre) {
-    @apply rounded-none border-2 border-line;
+    @apply rounded-xl border border-white/10 font-mono text-sm leading-relaxed;
   }
 
   & :where(blockquote) {
-    @apply font-normal not-italic;
+    @apply rounded-r-lg bg-surface px-5 py-4 font-mono text-[0.9375rem] leading-relaxed font-normal not-italic;
+    quotes: none;
   }
-}
 
-/* Shiki dual themes: light by default, dark when <html> has `.dark`. */
-.astro-code,
-.astro-code span {
-  color: var(--shiki-light);
-  background-color: var(--shiki-light-bg);
-}
+  & :where(blockquote p)::before,
+  & :where(blockquote p)::after {
+    content: none;
+  }
 
-.dark .astro-code,
-.dark .astro-code span {
-  color: var(--shiki-dark);
-  background-color: var(--shiki-dark-bg);
+  & :where(th) {
+    @apply eyebrow text-muted;
+  }
 }

@@ -1,36 +1,68 @@
 ---
-title: "How this site was built"
-description: "Astro, Tailwind CSS, Markdown, GitHub Pages — and an AI agent that wrote most of the code from a handful of prompts."
+title: "Three prompts and a change of heart"
+description: "An empty folder in the evening, a published bilingual blog the same night. I typed three prompts. An AI agent did the rest — including the first design, which I threw away."
 pubDate: 2026-10-30
-tags: ["astro", "tailwind", "ai", "github-pages"]
+tags: ["ai", "claude-code", "github-pages", "process"]
 ---
 
-Hello, world! This is the first post on my new personal page. Instead of the usual "lorem ipsum", let's look at how the page itself was made: which tools it uses and how an AI agent did most of the work.
+This site went from an empty folder to a live, bilingual blog in a single evening. I didn't write the code. I wrote three prompts — short, typo-ridden, half of them in the wrong language — and [Claude Code](https://claude.com/claude-code), running inside T3 Code, did the rest: it picked the tools, wrote the components, created the GitHub repository, wired up deploys and opened pull requests for me to review.
 
-## The idea
+This post is the honest log of how that went, including the part where I looked at the result and asked for something completely different.
 
-I wanted one place for three things:
+## "Can you do all the work?"
 
-- a short **CV** I can link to,
-- a **blog** where every post is just a Markdown file,
-- **two languages** — English and Lithuanian.
+The first prompt was a question, not a spec:
 
-It should also look fun: a **retro pixel-art hacker** style with **dark and light** themes. And the code should stay clean, with small reusable components and helpers, so it is easy to grow later.
+> Ok in .ai folder I want to create new project. It will be my personal page hosted in github, like cv or more like blog. Can you do all work? Or i will need to make some settings manual?
 
-## The tech stack
+The answer was refreshingly specific. Almost everything could be automated — my GitHub CLI was already logged in with the right permissions. Only three things needed me:
 
-| Part           | Tool                                                             |
-| -------------- | ---------------------------------------------------------------- |
-| Site generator | [Astro](https://astro.build) — static HTML, zero JS by default   |
-| Styling        | [Tailwind CSS v4](https://tailwindcss.com) + Typography plugin   |
-| Content        | Markdown files in Astro content collections, checked by Zod      |
-| Fonts          | _Press Start 2P_ for headings, _JetBrains Mono_ for text         |
-| Hosting        | GitHub Pages, deployed by GitHub Actions on every push to `main` |
-| Code quality   | TypeScript (strict), `astro check`, Prettier                     |
+1. **Content.** It had no way of knowing my work history, and it said so instead of inventing one.
+2. **A public repository.** On a free GitHub plan, Pages only serves public repos.
+3. **DNS**, but only if I ever want a custom domain.
 
-### Blog posts are Markdown
+Then it asked four questions — address, framework, look, language — each with a recommended default. That's the moment I stopped worrying about whether this would work.
 
-Each post is a file in `src/content/blog/<lang>/<slug>.md`. The frontmatter is validated with a schema, so a typo in a date or a missing title breaks the build instead of the page:
+## The spec in one breath
+
+> Language both, theme dark light, theme should be retro pixel art hacker like. Yes every blog post should be mark down. Note make code look clean use components helpers and etc also i like tailwind. For demo purpose create forst blog post how this page was created technology used and ai for prompts
+
+What came back:
+
+- a site in English and Lithuanian, with a language switcher that keeps you on the same page;
+- neon green on black, CRT scanlines, a blinking cursor, the _Press Start 2P_ pixel font;
+- every blog post a Markdown file, checked against a schema at build time;
+- a GitHub Actions pipeline that type-checks, builds and publishes on every push.
+
+The interesting part wasn't the output, it was the judgement along the way. The newest version of the framework needed a newer Node.js than the one on my laptop, so the agent chose the previous major version instead of breaking my setup — and then ran the type checker under a newer Node just to prove the code was clean. Before opening the pull request it served the site locally, drove a headless browser through it, took screenshots in both themes and on a phone-sized screen, and clicked the theme and language toggles to make sure they actually worked.
+
+It also flagged a flaw nobody asked about: the pixel font has no glyph for the Lithuanian letter **ų**. On a bilingual site, that's not a detail.
+
+I merged it. It was fun. It also looked like every other retro-terminal portfolio on the internet.
+
+## The change of heart
+
+> https://www.contentarchitecture.dev/?ref=onepagelove naudok geriau toki stilių, pašalink astro ir pan pašalink emai nerašk lėkštai, cv dali išvis pašalink kolkas tbd
+
+_(Roughly: "use a style like this instead, drop the Astro mentions and such, remove the email, stop writing so blandly, and remove the CV section entirely for now — TBD.")_
+
+One link did more than my whole previous paragraph of adjectives. The agent opened the reference in a headless browser, screenshotted it section by section, and read the computed styles straight from the page: font families, sizes, weights, colours. Then it rebuilt the design system around what it found:
+
+- warm paper background, near-black ink, one orange accent used sparingly;
+- **Geist** for reading, **Geist Mono** in small capitals for labels, dates and numbers;
+- numbered sections — `01 /` — instead of decoration;
+- a floating, always-dark navigation bar with the latest post scrolling underneath;
+- rings of slowly turning text where the pixel art used to be.
+
+The CV page is gone until there's something real to put on it. So is the placeholder email address. And the copy — including this post — was rewritten from scratch, because "I build things for the web" says nothing about anyone.
+
+## Under the hood
+
+The stack is deliberately boring, so the content can be the interesting part.
+
+### Posts are Markdown files
+
+Each post lives in `src/content/blog/<lang>/<slug>.md`, and a translation is simply the same file name in the other language's folder. Frontmatter is validated by a schema, so a typo in a date fails the build instead of quietly breaking a page:
 
 ```ts
 const blog = defineCollection({
@@ -45,58 +77,28 @@ const blog = defineCollection({
 });
 ```
 
-A translated post is the same file name in the other language folder. That's all it takes to add a new post: write Markdown, push, done.
+### One dictionary per language
 
-### Two languages
-
-Every page lives under `/en/` or `/lt/`. All interface text sits in one dictionary file, and a tiny helper returns the right string:
+Every interface string sits in one typed file. Forget to translate a key and TypeScript complains before a visitor ever sees it:
 
 ```ts
 const t = useTranslations(lang);
-t("nav.blog"); // "blog" or "blogas"
+t("hero.cta"); // "Read the blog" / "Skaityti blogą"
 ```
 
-The root `/` looks at your browser language and sends you to the matching version.
+### Themes are just CSS variables
 
-### Retro look, two themes
+The whole palette is seven CSS variables. Adding the `.dark` class swaps all of them — and because it's just a class, any element can carry it. That's how the navigation bar and the panel with the text rings stay dark even in light mode: they are wearing the dark theme themselves. A tiny inline script picks your saved theme before the first paint, so the page never flashes.
 
-Colours are CSS variables that Tailwind turns into utilities like `bg-surface` or `text-accent`. The `.dark` class on `<html>` swaps the whole palette. A small inline script runs before the first paint, so the page never flashes the wrong theme.
+### Deploys are a pull request away
 
-The pixel feel comes from a few custom utilities:
+Pull requests run formatting, type checks and a full build. Merging to `main` publishes to GitHub Pages. No servers, no bills.
 
-- `pixel-border` — a border with notched corners, made with four `box-shadow`s,
-- `crt` — faint scanlines over the page in dark mode,
-- `text-glow` — a green phosphor glow on headings,
-- icons drawn as text grids, where `#` is a pixel, and rendered to crisp SVG.
+## What I'd tell you if you try this
 
-### Deployment
+1. **Show, don't describe.** "Retro pixel hacker theme" got me exactly what I asked for. A link to a site I liked got me what I wanted.
+2. **Short prompts are fine.** Mine had typos and switched languages mid-sentence. What mattered was saying _what_ I wanted, not _how_ to build it.
+3. **Throwing work away is cheap now.** Replacing the whole first design took one sentence. That changes how willing you are to try things.
+4. **Read the diff.** The agent did the typing, but it's still my site. Reviewing the pull request is how I know what's actually in it.
 
-A GitHub Actions workflow installs dependencies, runs type checks, builds the site and publishes `dist/` to GitHub Pages. Pull requests run the same checks, plus a Prettier format check.
-
-## Built with AI
-
-The whole project was made in one session with **Claude Code** (running in T3 Code). I described what I wanted in plain words; the agent planned the structure, picked versions that work with my local Node.js, wrote the components, set up the GitHub repo, Pages and CI, and opened a pull request.
-
-These are the prompts I used, as I typed them:
-
-> Ok in .ai folder I want to create new project. It will be my personal page hosted in github, like cv or more like blog. Can you do all work? Or i will need to make some settings manual?
-
-The agent answered that it could do almost everything. Only three things needed me: my real CV details, agreeing to a public repo (free GitHub Pages needs one), and DNS settings if I ever want a custom domain. Then:
-
-> Language both, theme dark light, theme should be retro pixel art hacker like. Yes every blog post should be mark down. Note make code look clean use components helpers and etc also i like tailwind. For demo purpose create forst blog post how this page was created technology used and ai for prompts
-
-That second prompt produced the site you're reading, including this post. Short and messy prompts worked fine. What mattered was saying clearly what I wanted, not how to build it.
-
-### What I'd tell someone trying this
-
-1. **Say what you want, not how to do it.** "Retro pixel hacker theme" was enough; the agent picked the fonts and colours itself.
-2. **Mention your preferences.** I said I like Tailwind and clean components, so that's what I got.
-3. **Review the pull request.** The AI did the typing, but it's still my site. Reading the diff is how I learn what's inside.
-
-## What's next
-
-- Fill the CV with real details.
-- Write more posts about test automation, link checkers and AI tools.
-- Maybe a custom domain.
-
-Thanks for reading! The source code is on [GitHub](https://github.com/ohwelleu/ohwelleu.github.io).
+The source is on [GitHub](https://github.com/ohwelleu/ohwelleu.github.io) — pull requests included, so you can read exactly what the agent wrote and what I asked it to change.

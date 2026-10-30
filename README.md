@@ -1,6 +1,6 @@
 # ohwelleu.github.io
 
-Personal page, CV and blog. Retro pixel-art hacker theme with dark and light modes, in English and Lithuanian.
+Personal page and blog — editorial look (warm paper, Geist + Geist Mono, numbered sections), dark and light themes, English and Lithuanian.
 
 **Live:** https://ohwelleu.github.io
 
@@ -47,22 +47,21 @@ Post content in Markdown…
 ```
 src/
 ├── components/
-│   ├── ui/        # generic building blocks: PixelCard, PixelButton, PixelIcon, …
+│   ├── ui/        # building blocks: Button, Container, SectionHeader, TypeSpiral, Ticker, Icon, …
 │   ├── layout/    # Header, Footer, theme + language switchers, <head>
-│   ├── blog/      # PostCard, PostList, PostMeta
-│   └── cv/        # CV sections
+│   └── blog/      # PostRow, PostList, PostMeta
 ├── content/blog/  # Markdown posts, one folder per language
-├── data/profile.ts  # CV data (name, experience, skills, links)
+├── data/profile.ts  # name, handle, external links
 ├── i18n/          # languages, UI dictionary, translation helpers
 ├── layouts/       # BaseLayout, PostLayout
 ├── lib/           # post queries, navigation
-├── pages/         # routes: /[lang]/, /[lang]/blog/, /[lang]/cv/, RSS
-└── styles/global.css  # Tailwind theme, palette, retro utilities
+├── pages/         # routes: /[lang]/, /[lang]/blog/, RSS
+└── styles/global.css  # Tailwind theme, palette, utilities, Markdown styles
 ```
 
-- **CV content:** edit `src/data/profile.ts`.
+- **Name and links:** edit `src/data/profile.ts`.
 - **Interface text:** edit `src/i18n/ui.ts` (keys are type-checked across languages).
-- **Colours:** edit the CSS variables at the top of `src/styles/global.css`.
+- **Colours:** edit the CSS variables at the top of `src/styles/global.css`. Add the `dark` class to any element to make it always dark (the nav bar and hero panel do this).
 
 ## Deployment
 

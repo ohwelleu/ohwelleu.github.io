@@ -8,5 +8,4 @@ export interface NavItem {
 export const navItems: NavItem[] = [
   { key: "nav.home", path: "/" },
   { key: "nav.blog", path: "/blog" },
-  { key: "nav.cv", path: "/cv" },
 ];
