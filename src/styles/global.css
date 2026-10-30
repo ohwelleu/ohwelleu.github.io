@@ -115,7 +115,7 @@
   }
 
   & :where(:not(pre) > code) {
-    @apply rounded bg-surface px-1.5 py-0.5 font-mono text-[0.875em] font-normal;
+    @apply bg-surface px-1.5 py-0.5 font-mono text-[0.875em] font-normal;
   }
 
   & :not(pre) > code::before,
@@ -124,11 +124,11 @@
   }
 
   & :where(pre) {
-    @apply rounded-xl border border-white/10 font-mono text-sm leading-relaxed;
+    @apply rounded-none border border-line font-mono text-sm leading-relaxed;
   }
 
   & blockquote {
-    @apply rounded-r-lg bg-surface px-5 py-1 font-normal not-italic;
+    @apply bg-surface px-5 py-1 font-normal not-italic;
     quotes: none;
   }
 
@@ -142,15 +142,15 @@
   }
 
   & :where(mark) {
-    @apply rounded-sm bg-accent/25 px-1 text-fg;
+    @apply bg-accent/25 px-1 text-fg;
   }
 
   & :where(kbd) {
-    @apply rounded border border-b-2 border-line bg-surface px-1.5 py-0.5 font-mono text-[0.8em] text-fg shadow-none;
+    @apply rounded-none border border-b-2 border-line bg-surface px-1.5 py-0.5 font-mono text-[0.8em] text-fg shadow-none;
   }
 
   & :where(img) {
-    @apply rounded-xl border border-line;
+    @apply border border-line;
   }
 
   /* GitHub-style task lists */
@@ -163,7 +163,7 @@
   }
 
   & :where(details) {
-    @apply rounded-lg border border-line px-5 py-3;
+    @apply border border-line px-5 py-3;
   }
 
   & :where(summary) {
@@ -178,4 +178,17 @@
   & .footnotes h2 {
     @apply sr-only;
   }
+}
+
+/* Code blocks follow the page theme: light colours by default, dark with `.dark`. */
+.astro-code,
+.astro-code span {
+  color: var(--shiki-light);
+  background-color: var(--shiki-light-bg);
+}
+
+html.dark .astro-code,
+html.dark .astro-code span {
+  color: var(--shiki-dark);
+  background-color: var(--shiki-dark-bg);
 }
