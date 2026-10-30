@@ -1,0 +1,197 @@
+@import "@fontsource/press-start-2p";
+@import "@fontsource/jetbrains-mono/400.css";
+@import "@fontsource/jetbrains-mono/700.css";
+@import "tailwindcss";
+
+@plugin "@tailwindcss/typography";
+
+/* Dark mode is driven by a `.dark` class on <html>, set by ThemeScript. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------- Palette ---------- */
+
+:root {
+  --bg: #f2efe2;
+  --surface: #fbf9f0;
+  --fg: #1d221c;
+  --muted: #5d6656;
+  --line: #1d221c;
+  --accent: #1f7a3a;
+  --accent-2: #b04a0c;
+  --selection: #c6f0cf;
+}
+
+.dark {
+  --bg: #090d0a;
+  --surface: #0f1812;
+  --fg: #c9f5d1;
+  --muted: #6f907a;
+  --line: #2f6b40;
+  --accent: #39ff6a;
+  --accent-2: #ffb000;
+  --selection: #1d4d2a;
+}
+
+@theme inline {
+  --font-pixel: "Press Start 2P", ui-monospace, monospace;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-sans: var(--font-mono);
+
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+}
+
+/* ---------- Base ---------- */
+
+@layer base {
+  html {
+    @apply bg-bg text-fg antialiased;
+    color-scheme: light;
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply min-h-dvh font-mono leading-relaxed;
+  }
+
+  ::selection {
+    background: var(--selection);
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-4 outline-accent outline-dashed;
+  }
+
+  img {
+    image-rendering: pixelated;
+  }
+}
+
+/* ---------- Retro utilities ---------- */
+
+/* Border with notched "pixel" corners. Needs a little margin around it. */
+@utility pixel-border {
+  box-shadow:
+    0 -4px 0 0 var(--color-line),
+    0 4px 0 0 var(--color-line),
+    -4px 0 0 0 var(--color-line),
+    4px 0 0 0 var(--color-line);
+}
+
+@utility pixel-border-accent {
+  box-shadow:
+    0 -4px 0 0 var(--color-accent),
+    0 4px 0 0 var(--color-accent),
+    -4px 0 0 0 var(--color-accent),
+    4px 0 0 0 var(--color-accent);
+}
+
+/* Soft phosphor glow on text — only in dark mode. */
+@utility text-glow {
+  .dark & {
+    text-shadow: 0 0 6px
+      color-mix(in srgb, var(--color-accent) 70%, transparent);
+  }
+}
+
+/* CRT scanlines overlay — only in dark mode. */
+@utility crt {
+  .dark &::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 50;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent 2px,
+      rgb(0 0 0 / 0.18) 3px
+    );
+  }
+}
+
+@utility cursor-blink {
+  animation: blink 1s steps(1) infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* ---------- Markdown ---------- */
+
+@utility prose-retro {
+  --tw-prose-body: var(--color-fg);
+  --tw-prose-headings: var(--color-accent);
+  --tw-prose-lead: var(--color-muted);
+  --tw-prose-links: var(--color-accent-2);
+  --tw-prose-bold: var(--color-fg);
+  --tw-prose-counters: var(--color-muted);
+  --tw-prose-bullets: var(--color-accent);
+  --tw-prose-hr: var(--color-line);
+  --tw-prose-quotes: var(--color-fg);
+  --tw-prose-quote-borders: var(--color-accent);
+  --tw-prose-captions: var(--color-muted);
+  --tw-prose-code: var(--color-accent-2);
+  --tw-prose-pre-code: var(--color-fg);
+  --tw-prose-pre-bg: var(--color-surface);
+  --tw-prose-th-borders: var(--color-line);
+  --tw-prose-td-borders: var(--color-line);
+
+  & :where(h1, h2, h3, h4) {
+    @apply font-pixel leading-snug font-normal;
+  }
+
+  & :where(h2) {
+    @apply text-base;
+  }
+
+  & :where(h3) {
+    @apply text-sm;
+  }
+
+  & :where(h2)::before {
+    content: "# ";
+    color: var(--color-muted);
+  }
+
+  & :where(a) {
+    @apply underline decoration-dashed underline-offset-4 hover:decoration-solid;
+  }
+
+  & :where(pre) {
+    @apply rounded-none border-2 border-line;
+  }
+
+  & :where(blockquote) {
+    @apply font-normal not-italic;
+  }
+}
+
+/* Shiki dual themes: light by default, dark when <html> has `.dark`. */
+.astro-code,
+.astro-code span {
+  color: var(--shiki-light);
+  background-color: var(--shiki-light-bg);
+}
+
+.dark .astro-code,
+.dark .astro-code span {
+  color: var(--shiki-dark);
+  background-color: var(--shiki-dark-bg);
+}

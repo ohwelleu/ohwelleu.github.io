@@ -1,0 +1,51 @@
+---
+import "@/styles/global.css";
+import { locales } from "@/i18n/config";
+import { getLangFromUrl, switchLangPath, useTranslations } from "@/i18n/utils";
+import ThemeScript from "./ThemeScript.astro";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const siteTitle = t("site.title");
+const { title, description = t("site.description") } = Astro.props;
+const fullTitle = title ? `${title} | ${siteTitle}` : siteTitle;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content={Astro.generator} />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="sitemap" href="/sitemap-index.xml" />
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  title={siteTitle}
+  href={`/${lang}/rss.xml`}
+/>
+
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+{
+  locales.map((locale) => (
+    <link
+      rel="alternate"
+      hreflang={locale}
+      href={new URL(switchLangPath(Astro.url, locale), Astro.site)}
+    />
+  ))
+}
+
+<meta property="og:type" content="website" />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+
+<ThemeScript />

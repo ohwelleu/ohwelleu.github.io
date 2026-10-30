@@ -1,0 +1,17 @@
+---
+/**
+ * Runs before first paint so the page never flashes the wrong theme.
+ * Order of preference: saved choice → system setting → light.
+ */
+---
+
+<script is:inline>
+  (() => {
+    const saved = localStorage.getItem("theme");
+    const prefersDark = window.matchMedia(
+      "(prefers-color-scheme: dark)",
+    ).matches;
+    const isDark = saved ? saved === "dark" : prefersDark;
+    document.documentElement.classList.toggle("dark", isDark);
+  })();
+</script>
