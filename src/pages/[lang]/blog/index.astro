@@ -14,14 +14,13 @@ const t = useTranslations(lang);
 const posts = await getPosts(lang);
 ---
 
-<BaseLayout title={t("blog.title")} description={t("blog.description")}>
+<BaseLayout title={t("blog.title")}>
   <Container class="pt-36 pb-24 sm:pt-44">
     <SectionHeader
       as="h1"
       index="01"
       label={t("blog.title")}
       title={t("home.writing")}
-      intro={t("blog.description")}
     />
     <PostList posts={posts} lang={lang} />
   </Container>

@@ -1,6 +1,6 @@
 # ohwelleu.github.io
 
-Personal page and blog — editorial look (warm paper, Geist + Geist Mono, numbered sections), dark and light themes, English and Lithuanian.
+just another github page — a small bilingual (EN/LT) Markdown blog with dark and light themes.
 
 **Live:** https://ohwelleu.github.io
 
@@ -47,11 +47,11 @@ Post content in Markdown…
 ```
 src/
 ├── components/
-│   ├── ui/        # building blocks: Button, Container, SectionHeader, TypeSpiral, Ticker, Icon, …
+│   ├── ui/        # building blocks: Button, Container, SectionHeader, Logo, Icon, …
 │   ├── layout/    # Header, Footer, theme + language switchers, <head>
 │   └── blog/      # PostRow, PostList, PostMeta
 ├── content/blog/  # Markdown posts, one folder per language
-├── data/profile.ts  # name, handle, external links
+├── data/profile.ts  # handle and external links
 ├── i18n/          # languages, UI dictionary, translation helpers
 ├── layouts/       # BaseLayout, PostLayout
 ├── lib/           # post queries, navigation
@@ -59,9 +59,10 @@ src/
 └── styles/global.css  # Tailwind theme, palette, utilities, Markdown styles
 ```
 
-- **Name and links:** edit `src/data/profile.ts`.
+- **Links:** edit `src/data/profile.ts`.
+- **Markdown reference:** see the `markdown-test` post for every supported feature.
 - **Interface text:** edit `src/i18n/ui.ts` (keys are type-checked across languages).
-- **Colours:** edit the CSS variables at the top of `src/styles/global.css`. Add the `dark` class to any element to make it always dark (the nav bar and hero panel do this).
+- **Colours:** edit the CSS variables at the top of `src/styles/global.css`. Add the `dark` class to any element to make it always dark (the nav bar does this).
 
 ## Deployment
 

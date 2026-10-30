@@ -75,43 +75,11 @@
   @apply font-mono text-[0.8125rem] leading-snug tracking-wide uppercase;
 }
 
-@utility marquee {
-  animation: marquee 40s linear infinite;
-
-  @media (prefers-reduced-motion: reduce) {
-    animation: none;
-  }
-}
-
-@utility spin-slow {
-  animation: spin 160s linear infinite;
-  transform-origin: center;
-  transform-box: fill-box;
-
-  @media (prefers-reduced-motion: reduce) {
-    animation: none;
-  }
-}
-
-@utility spin-slow-reverse {
-  animation: spin 120s linear infinite reverse;
-  transform-origin: center;
-  transform-box: fill-box;
-
-  @media (prefers-reduced-motion: reduce) {
-    animation: none;
-  }
-}
-
-@keyframes marquee {
-  to {
-    transform: translateX(-50%);
-  }
-}
-
 /* ---------- Markdown ---------- */
 
-@utility prose-editorial {
+/* Unlayered on purpose: always wins over the typography plugin's defaults,
+   whatever order Tailwind emits its utilities in. */
+.prose-editorial {
   --tw-prose-body: var(--color-fg);
   --tw-prose-headings: var(--color-fg);
   --tw-prose-lead: var(--color-muted);
@@ -150,8 +118,8 @@
     @apply rounded bg-surface px-1.5 py-0.5 font-mono text-[0.875em] font-normal;
   }
 
-  & :where(:not(pre) > code)::before,
-  & :where(:not(pre) > code)::after {
+  & :not(pre) > code::before,
+  & :not(pre) > code::after {
     content: none;
   }
 
@@ -159,17 +127,55 @@
     @apply rounded-xl border border-white/10 font-mono text-sm leading-relaxed;
   }
 
-  & :where(blockquote) {
-    @apply rounded-r-lg bg-surface px-5 py-4 font-mono text-[0.9375rem] leading-relaxed font-normal not-italic;
+  & blockquote {
+    @apply rounded-r-lg bg-surface px-5 py-1 font-normal not-italic;
     quotes: none;
   }
 
-  & :where(blockquote p)::before,
-  & :where(blockquote p)::after {
+  & blockquote p::before,
+  & blockquote p::after {
     content: none;
   }
 
   & :where(th) {
     @apply eyebrow text-muted;
+  }
+
+  & :where(mark) {
+    @apply rounded-sm bg-accent/25 px-1 text-fg;
+  }
+
+  & :where(kbd) {
+    @apply rounded border border-b-2 border-line bg-surface px-1.5 py-0.5 font-mono text-[0.8em] text-fg shadow-none;
+  }
+
+  & :where(img) {
+    @apply rounded-xl border border-line;
+  }
+
+  /* GitHub-style task lists */
+  & :where(ul.contains-task-list) {
+    @apply list-none ps-0;
+  }
+
+  & :where(.task-list-item input) {
+    @apply me-2 size-4 translate-y-0.5 accent-accent;
+  }
+
+  & :where(details) {
+    @apply rounded-lg border border-line px-5 py-3;
+  }
+
+  & :where(summary) {
+    @apply cursor-pointer font-medium;
+  }
+
+  & :where(.footnotes) {
+    @apply mt-16 border-t border-line pt-6 text-base text-muted;
+  }
+
+  /* The generated "Footnotes" heading is meant for screen readers only. */
+  & .footnotes h2 {
+    @apply sr-only;
   }
 }

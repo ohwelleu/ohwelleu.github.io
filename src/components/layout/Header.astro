@@ -1,17 +1,14 @@
 ---
 import { getLangFromUrl, localizePath, useTranslations } from "@/i18n/utils";
 import { navItems } from "@/lib/nav";
-import { getPostSlug, getPosts } from "@/lib/posts";
+import Icon from "@/components/ui/Icon.astro";
 import Logo from "@/components/ui/Logo.astro";
-import Ticker from "@/components/ui/Ticker.astro";
 import LangSwitcher from "./LangSwitcher.astro";
 import ThemeToggle from "./ThemeToggle.astro";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const homePath = localizePath(lang);
-
-const [latest] = await getPosts(lang);
 
 function isActive(path: string): boolean {
   const href = localizePath(lang, path);
@@ -24,53 +21,38 @@ function isActive(path: string): boolean {
 <header class="fixed inset-x-0 top-3 z-50 flex justify-center px-3 sm:top-4">
   <!-- Always-dark floating bar, in both themes -->
   <div
-    class="dark w-full max-w-xl rounded-xl border border-white/10 bg-ink p-1.5 text-fg shadow-xl shadow-black/20"
+    class="dark flex w-full max-w-xl items-center gap-1 rounded-xl border border-white/10 bg-ink p-1.5 text-fg shadow-xl shadow-black/20"
   >
-    <div class="flex items-center gap-1">
-      <a
-        href={homePath}
-        class="grid size-9 shrink-0 place-items-center rounded-md hover:bg-surface"
-        aria-label={t("nav.home")}
-      >
-        <Logo class="size-6" />
-      </a>
+    <Logo class="px-3 text-sm" />
 
-      <nav aria-label={t("nav.main")} class="flex-1">
-        <ul class="flex">
-          {
-            navItems.map(({ key, path }) => {
-              const active = isActive(path);
-              return (
-                <li>
-                  <a
-                    href={localizePath(lang, path)}
-                    aria-current={active ? "page" : undefined}
-                    class:list={[
-                      "block rounded-md px-3 py-2 eyebrow",
-                      active ? "bg-surface" : "text-muted hover:text-fg",
-                    ]}
-                  >
-                    {t(key)}
-                  </a>
-                </li>
-              );
-            })
-          }
-        </ul>
-      </nav>
+    <nav aria-label={t("nav.main")} class="flex-1">
+      <ul class="flex">
+        {
+          navItems.map(({ key, path, icon }) => {
+            const active = isActive(path);
+            return (
+              <li>
+                <a
+                  href={localizePath(lang, path)}
+                  aria-current={active ? "page" : undefined}
+                  aria-label={icon ? t(key) : undefined}
+                  title={icon ? t(key) : undefined}
+                  class:list={[
+                    "grid h-9 place-items-center rounded-md eyebrow",
+                    icon ? "w-9" : "px-3",
+                    active ? "bg-surface" : "text-muted hover:text-fg",
+                  ]}
+                >
+                  {icon ? <Icon name={icon} /> : t(key)}
+                </a>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </nav>
 
-      <LangSwitcher />
-      <ThemeToggle />
-    </div>
-
-    {
-      latest && (
-        <Ticker
-          href={localizePath(lang, `/blog/${getPostSlug(latest)}`)}
-          text={`${t("ticker.latest")}: ${latest.data.title}`}
-          class="mt-1.5 rounded-sm bg-fg py-0.5 eyebrow text-[0.6875rem] text-ink"
-        />
-      )
-    }
+    <LangSwitcher />
+    <ThemeToggle />
   </div>
 </header>

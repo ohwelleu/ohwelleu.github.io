@@ -1,5 +1,6 @@
 /** SVG path data for 24×24 stroke icons, rendered by <Icon />. */
 export const icons = {
+  home: "M3 10.5 12 3l9 7.5M5 9v11h5v-6h4v6h5V9",
   arrowRight: "M5 12h14M13 6l6 6-6 6",
   arrowLeft: "M19 12H5M11 6l-6 6 6 6",
   arrowUpRight: "M7 17 17 7M8 7h9v9",
