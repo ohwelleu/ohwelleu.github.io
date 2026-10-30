@@ -1,10 +1,12 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import PostList from "@/components/blog/PostList.astro";
-import PixelButton from "@/components/ui/PixelButton.astro";
-import PixelIcon from "@/components/ui/PixelIcon.astro";
-import SectionTitle from "@/components/ui/SectionTitle.astro";
-import TerminalWindow from "@/components/ui/TerminalWindow.astro";
+import Button from "@/components/ui/Button.astro";
+import Container from "@/components/ui/Container.astro";
+import Eyebrow from "@/components/ui/Eyebrow.astro";
+import Icon from "@/components/ui/Icon.astro";
+import SectionHeader from "@/components/ui/SectionHeader.astro";
+import TypeSpiral from "@/components/ui/TypeSpiral.astro";
 import { profile } from "@/data/profile";
 import type { Lang } from "@/i18n/config";
 import { langStaticPaths, localizePath, useTranslations } from "@/i18n/utils";
@@ -16,51 +18,66 @@ const LATEST_POSTS = 3;
 
 const lang = Astro.params.lang as Lang;
 const t = useTranslations(lang);
-const posts = (await getPosts(lang)).slice(0, LATEST_POSTS);
+const posts = await getPosts(lang);
+const spiralWords = [...t("hero.spiral").split(","), profile.handle];
+const github = profile.links.find(({ label }) => label === "GitHub");
 ---
 
 <BaseLayout>
-  <TerminalWindow title={`~/${profile.handle} — whoami`}>
-    <p class="text-sm text-muted">
-      <span class="text-accent">$</span> whoami
-    </p>
-    <h1
-      class="mt-4 font-pixel text-xl leading-relaxed text-accent text-glow sm:text-3xl"
+  <section class="grid lg:min-h-svh lg:grid-cols-2">
+    <div
+      class="flex flex-col justify-center px-6 pt-36 pb-16 sm:px-10 lg:px-16 xl:px-20"
     >
-      {t("home.greeting")}
-    </h1>
-    <p
-      class="mt-4 font-pixel text-[0.65rem] leading-relaxed text-accent-2 sm:text-xs"
-    >
-      {profile.name} · {profile.role[lang]}
-    </p>
-    <p class="mt-6 max-w-2xl">{t("home.intro")}</p>
-    <p class="mt-6 text-sm text-muted">
-      <span class="text-accent">$</span>
-      <span class="cursor-blink">█</span>
-    </p>
-
-    <div class="mt-8 flex flex-wrap gap-4">
-      <PixelButton href={localizePath(lang, "/cv")}>
-        {t("home.readCv")}
-        <PixelIcon name="arrowRight" class="size-3" />
-      </PixelButton>
-      <PixelButton href={localizePath(lang, "/blog")} variant="ghost">
-        {t("nav.blog")}
-      </PixelButton>
-    </div>
-  </TerminalWindow>
-
-  <section class="mt-16">
-    <div class="mb-6 flex flex-wrap items-baseline justify-between gap-4">
-      <SectionTitle>{t("home.latest")}</SectionTitle>
-      <a
-        href={localizePath(lang, "/blog")}
-        class="text-xs text-accent-2 hover:underline"
+      <Eyebrow class="text-fg">{t("hero.eyebrow")}</Eyebrow>
+      <h1
+        class="mt-6 max-w-xl text-5xl leading-[1.02] font-medium tracking-tight text-balance sm:text-6xl"
       >
-        {t("home.allPosts")} →
-      </a>
+        {t("hero.title")}
+      </h1>
+      <p class="mt-8 max-w-xl text-lg text-muted">{t("hero.intro")}</p>
+
+      <div class="mt-10 flex flex-wrap gap-3">
+        <Button href={localizePath(lang, "/blog")} dot>
+          {t("hero.cta")}
+          <Icon name="arrowRight" class="size-3.5" />
+        </Button>
+        {
+          github && (
+            <Button href={github.href} variant="soft" rel="me noopener">
+              {github.label}
+              <Icon name="arrowUpRight" class="size-3.5" />
+            </Button>
+          )
+        }
+      </div>
     </div>
-    <PostList posts={posts} lang={lang} />
+
+    <!-- Always-dark panel -->
+    <div
+      class="dark relative flex aspect-square items-center justify-center overflow-hidden bg-ink text-fg lg:aspect-auto"
+    >
+      <TypeSpiral words={spiralWords} class="absolute size-[150%] max-w-none" />
+    </div>
+  </section>
+
+  <section class="dark bg-ink text-fg">
+    <Container class="py-24 sm:py-32">
+      <SectionHeader
+        index="01"
+        label={t("nav.blog")}
+        title={t("home.writing")}
+        intro={t("home.writingIntro")}
+      >
+        <Button href={localizePath(lang, "/blog")} variant="soft">
+          {t("home.allPosts")}
+          <Icon name="arrowRight" class="size-3.5" />
+        </Button>
+      </SectionHeader>
+      <PostList
+        posts={posts.slice(0, LATEST_POSTS)}
+        total={posts.length}
+        lang={lang}
+      />
+    </Container>
   </section>
 </BaseLayout>

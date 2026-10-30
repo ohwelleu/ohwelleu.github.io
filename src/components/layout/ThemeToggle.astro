@@ -1,6 +1,6 @@
 ---
 import { getLangFromUrl, useTranslations } from "@/i18n/utils";
-import PixelIcon from "@/components/ui/PixelIcon.astro";
+import Icon from "@/components/ui/Icon.astro";
 
 const t = useTranslations(getLangFromUrl(Astro.url));
 ---
@@ -8,12 +8,13 @@ const t = useTranslations(getLangFromUrl(Astro.url));
 <button
   type="button"
   data-theme-toggle
-  class="m-1 grid size-9 place-items-center bg-surface pixel-border hover:text-accent"
+  class="grid size-9 shrink-0 place-items-center rounded-md text-muted hover:bg-surface hover:text-fg"
   aria-label={t("theme.toggle")}
   title={t("theme.toggle")}
 >
-  <PixelIcon name="moon" class="size-4 dark:hidden" />
-  <PixelIcon name="sun" class="hidden size-4 dark:block" />
+  <!-- Shows the theme you'd switch to; reads <html>, not the always-dark header -->
+  <Icon name="moon" class="size-4 in-[html.dark]:hidden" />
+  <Icon name="sun" class="hidden size-4 in-[html.dark]:block" />
 </button>
 
 <script>

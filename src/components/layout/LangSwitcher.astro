@@ -7,7 +7,7 @@ const t = useTranslations(current);
 ---
 
 <nav aria-label={t("lang.switch")}>
-  <ul class="flex items-center gap-1 text-xs">
+  <ul class="flex">
     {
       locales.map((lang) => (
         <li>
@@ -17,10 +17,8 @@ const t = useTranslations(current);
             lang={lang}
             aria-current={lang === current ? "true" : undefined}
             class:list={[
-              "px-1.5 py-1 uppercase",
-              lang === current
-                ? "text-accent text-glow"
-                : "text-muted hover:text-fg",
+              "block rounded-md px-2 py-2 eyebrow",
+              lang === current ? "text-fg" : "text-muted hover:text-fg",
             ]}
           >
             {lang}

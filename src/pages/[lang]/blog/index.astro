@@ -1,7 +1,8 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import PostList from "@/components/blog/PostList.astro";
-import SectionTitle from "@/components/ui/SectionTitle.astro";
+import Container from "@/components/ui/Container.astro";
+import SectionHeader from "@/components/ui/SectionHeader.astro";
 import type { Lang } from "@/i18n/config";
 import { langStaticPaths, useTranslations } from "@/i18n/utils";
 import { getPosts } from "@/lib/posts";
@@ -14,7 +15,14 @@ const posts = await getPosts(lang);
 ---
 
 <BaseLayout title={t("blog.title")} description={t("blog.description")}>
-  <SectionTitle as="h1">{t("blog.title")}</SectionTitle>
-  <p class="mt-4 mb-10 text-muted">{t("blog.description")}</p>
-  <PostList posts={posts} lang={lang} />
+  <Container class="pt-36 pb-24 sm:pt-44">
+    <SectionHeader
+      as="h1"
+      index="01"
+      label={t("blog.title")}
+      title={t("home.writing")}
+      intro={t("blog.description")}
+    />
+    <PostList posts={posts} lang={lang} />
+  </Container>
 </BaseLayout>

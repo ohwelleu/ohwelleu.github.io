@@ -1,0 +1,37 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+type Props = HTMLAttributes<"a"> & {
+  variant?: "solid" | "soft";
+  /** Small accent dot in the corner, used to draw the eye to the main action. */
+  dot?: boolean;
+};
+
+const {
+  variant = "solid",
+  dot = false,
+  class: className,
+  ...rest
+} = Astro.props;
+---
+
+<a
+  class:list={[
+    "relative inline-flex items-center gap-2 rounded-lg px-5 py-3.5 eyebrow transition-colors",
+    variant === "solid"
+      ? "bg-fg text-bg hover:bg-accent hover:text-white"
+      : "bg-surface text-fg hover:bg-line",
+    className,
+  ]}
+  {...rest}
+>
+  <slot />
+  {
+    dot && (
+      <span
+        class="absolute -top-1 -right-1 size-2 rounded-full bg-accent"
+        aria-hidden="true"
+      />
+    )
+  }
+</a>

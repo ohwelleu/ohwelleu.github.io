@@ -2,27 +2,30 @@
 import type { Lang } from "@/i18n/config";
 import { useTranslations } from "@/i18n/utils";
 import type { Post } from "@/lib/posts";
-import PostCard from "./PostCard.astro";
+import PostRow from "./PostRow.astro";
 
 interface Props {
+  /** Newest first, as returned by `getPosts`. */
   posts: Post[];
   lang: Lang;
+  /** Total number of posts, so numbering stays stable when the list is cut. */
+  total?: number;
 }
 
-const { posts, lang } = Astro.props;
+const { posts, lang, total = posts.length } = Astro.props;
 const t = useTranslations(lang);
 ---
 
 {
   posts.length > 0 ? (
-    <ul class="grid gap-6">
-      {posts.map((post) => (
+    <ol>
+      {posts.map((post, index) => (
         <li>
-          <PostCard post={post} lang={lang} />
+          <PostRow post={post} lang={lang} number={total - index} />
         </li>
       ))}
-    </ul>
+    </ol>
   ) : (
-    <p class="text-muted">{t("blog.empty")}</p>
+    <p class="py-10 text-muted">{t("blog.empty")}</p>
   )
 }
