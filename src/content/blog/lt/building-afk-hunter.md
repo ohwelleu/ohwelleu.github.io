@@ -29,7 +29,7 @@ Daugiausia laiko užėmė grafika. Žaidime naudojamos dvi mano svetainės spalv
 
 Herojus turėjo keturias versijas. Pirma – dirbtinio intelekto nupieštas 32×32 medžiotojas. Tada aukštesnis, kuris atrodė kaip plokščia balta dėmė. Tada sukurtas pagal proporcijas, išmatuotas nuo pavyzdinio paveikslėlio (DI nekopijuoja svetimo personažo, tik proporcijas ir pozą). Nė vienas nebuvo „mano“, todėl nusipiešiau savo 32×64 žudiką su raudona akimi ir balta ranka. Į žaidimą jis perkeltas pikselis į pikselį, o ataka tapo antausiu ta balta ranka.
 
-Ką iš to išmokau: DI gerai tvarkosi su struktūra ir animacijos „santechnika“, o patį personažą geriau nupiešia žmogus. Kitas žingsnis – spraitų konverteris, kad visą grafiką ir animacijas galėčiau piešti pats.
+Ką iš to išmokau: DI gerai tvarkosi su struktūra ir animacijos „santechnika“, o patį personažą geriau nupiešia žmogus.
 
 ## Muzika, sukurta naršyklėje
 
@@ -38,5 +38,16 @@ Muzika – du originalūs sintezatoriaus kūriniai, generuojami tiesiai naršykl
 ## Vienas planuotojas, keli pagalbininkai
 
 Žaidimą kūriau su DI, bet ne viename ilgame pokalbyje. Buvo viena planavimo gija ir atskiros gijos kodui, grafikai, muzikai ir meniu. Kiekviena dirbo savo šakoje ir siuntė pull requestus, kuriuos peržiūrėjau pats. Sinchronizuoti jas padėjo paprasti dokumentai: planas, darbų sąrašas ir datuotas sprendimų žurnalas. Iš to žurnalo ir gimė šis įrašas.
+
+## Kas toliau
+
+Keli darbai, kuriuos jau esu sau pažadėjęs:
+
+- **Spraitų konverteris**, kad galėčiau piešti pikselių redaktoriuje, o žaidimas grafiką pasiimtų tiesiai, užuot DI ją kopijavęs pikselis po pikselio.
+- **Sutvarkyti animacijas.** Tikrai mano yra tik herojaus ramybės kadras, o atakos, sužeidimo ir mirties kadrai buvo išvesti iš jo. Juos noriu perpiešti pats.
+- **Nupiešti kitą herojų.**
+- **Didesni ginklai, monstrai ir bosas**, kad derėtų prie aukštesnio herojaus. Ginklai piešti senajam 32×32 herojui, o monstrai irgi turi paaugti.
+- **Originalus 8 bitų synthwave kūrinys** muzikos meniu.
+- **Žaidimas:** herojaus gyvybės patobulinimai (ir tada iš naujo peržiūrėta monstrų žala), patobulinimų pirkimas po daug iš karto, o vėliau nauji pasauliai su šikšnosparniais, vaiduokliais ir vampyrais.
 
 Jei įdomu, kur visa tai nueis, [pažaisk čia](/lt/game) arba sek [repozitoriją](https://github.com/ohwelleu/browser-afk-game).
