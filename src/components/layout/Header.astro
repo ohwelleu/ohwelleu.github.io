@@ -4,6 +4,7 @@ import { navItems } from "@/lib/nav";
 import Icon from "@/components/ui/Icon.astro";
 import Logo from "@/components/ui/Logo.astro";
 import LangSwitcher from "./LangSwitcher.astro";
+import AccentPicker from "./AccentPicker.astro";
 import ThemeToggle from "./ThemeToggle.astro";
 
 const lang = getLangFromUrl(Astro.url);
@@ -18,10 +19,12 @@ function isActive(path: string): boolean {
 }
 ---
 
-<header class="fixed inset-x-0 top-3 z-50 flex justify-center px-3 sm:top-4">
-  <!-- Always-dark floating bar, in both themes -->
+<header
+  class="fixed inset-x-0 bottom-3 z-50 flex justify-center px-3 sm:bottom-4"
+>
+  <!-- Floating bar pinned to the bottom; follows the page theme -->
   <div
-    class="dark flex w-full max-w-xl items-center gap-1 border border-white/10 bg-ink p-1.5 text-fg shadow-xl shadow-black/20"
+    class="flex w-full max-w-xl items-center gap-1 border-3 border-fg bg-bg p-1.5 text-fg"
   >
     <Logo class="px-3 text-sm" />
 
@@ -53,6 +56,7 @@ function isActive(path: string): boolean {
     </nav>
 
     <LangSwitcher />
+    <AccentPicker />
     <ThemeToggle />
   </div>
 </header>

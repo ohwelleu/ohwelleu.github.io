@@ -1,0 +1,32 @@
+---
+import { getLangFromUrl, useTranslations } from "@/i18n/utils";
+
+const t = useTranslations(getLangFromUrl(Astro.url));
+---
+
+<button
+  type="button"
+  data-accent-picker
+  class="grid size-9 shrink-0 place-items-center hover:bg-surface"
+  aria-label={t("accent.switch")}
+  title={t("accent.switch")}
+>
+  <!-- Swatch shows the current accent -->
+  <span class="size-3.5 bg-accent"></span>
+</button>
+
+<script>
+  import { accents, type Accent } from "@/lib/accents";
+
+  document
+    .querySelectorAll<HTMLButtonElement>("[data-accent-picker]")
+    .forEach((button) => {
+      button.addEventListener("click", () => {
+        const root = document.documentElement;
+        const current = (root.dataset.accent ?? accents[0]) as Accent;
+        const next = accents[(accents.indexOf(current) + 1) % accents.length];
+        root.dataset.accent = next;
+        localStorage.setItem("accent", next);
+      });
+    });
+</script>
