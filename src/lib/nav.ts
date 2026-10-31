@@ -11,4 +11,5 @@ export interface NavItem {
 export const navItems: NavItem[] = [
   { key: "nav.home", path: "/", icon: "home" },
   { key: "nav.blog", path: "/blog" },
+  { key: "nav.game", path: "/game" },
 ];

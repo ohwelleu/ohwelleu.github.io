@@ -1,6 +1,8 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import PostList from "@/components/blog/PostList.astro";
+import AfkGame from "@/components/game/AfkGame.astro";
+import { GAME_SCRIPT } from "@/lib/game";
 import Button from "@/components/ui/Button.astro";
 import Container from "@/components/ui/Container.astro";
 import Eyebrow from "@/components/ui/Eyebrow.astro";
@@ -22,7 +24,13 @@ const github = profile.links.find(({ label }) => label === "GitHub");
 ---
 
 <BaseLayout>
-  <Container class="pt-40 pb-24 sm:pt-52 sm:pb-32">
+  <script slot="head" is:inline src={GAME_SCRIPT} defer></script>
+
+  <Container class="pt-6 sm:pt-10">
+    <AfkGame />
+  </Container>
+
+  <Container class="pt-16 pb-24 sm:pt-20 sm:pb-32">
     <Eyebrow>{t("site.description")}</Eyebrow>
     <h1
       class="mt-6 text-8xl leading-none font-medium tracking-tight sm:text-9xl"
