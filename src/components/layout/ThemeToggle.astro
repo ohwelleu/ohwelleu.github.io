@@ -12,7 +12,7 @@ const t = useTranslations(getLangFromUrl(Astro.url));
   aria-label={t("theme.toggle")}
   title={t("theme.toggle")}
 >
-  <!-- Shows the theme you'd switch to; reads <html>, not the always-dark header -->
+  <!-- Shows the theme you'd switch to -->
   <Icon name="moon" class="size-4 in-[html.dark]:hidden" />
   <Icon name="sun" class="hidden size-4 in-[html.dark]:block" />
 </button>

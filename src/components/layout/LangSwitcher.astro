@@ -1,13 +1,34 @@
 ---
-import { locales } from "@/i18n/config";
+import { languages, locales } from "@/i18n/config";
 import { getLangFromUrl, switchLangPath, useTranslations } from "@/i18n/utils";
+import Icon from "@/components/ui/Icon.astro";
 
 const current = getLangFromUrl(Astro.url);
 const t = useTranslations(current);
 ---
 
-<nav aria-label={t("lang.switch")}>
-  <ul class="flex">
+<!-- The bar sits at the bottom of the screen, so the menu opens upwards -->
+<div class="relative" data-lang-switcher>
+  <button
+    type="button"
+    class="flex h-9 items-center gap-1 px-2 eyebrow text-muted hover:text-fg aria-expanded:text-fg"
+    aria-haspopup="true"
+    aria-expanded="false"
+    aria-controls="lang-menu"
+    aria-label={t("lang.switch")}
+    title={t("lang.switch")}
+  >
+    {current}
+    <Icon
+      name="chevronUp"
+      class="size-3.5 transition-transform in-aria-expanded:rotate-180"
+    />
+  </button>
+
+  <ul
+    id="lang-menu"
+    class="absolute right-0 bottom-full mb-3 hidden min-w-40 border-3 border-fg bg-bg p-1.5"
+  >
     {
       locales.map((lang) => (
         <li>
@@ -17,14 +38,46 @@ const t = useTranslations(current);
             lang={lang}
             aria-current={lang === current ? "true" : undefined}
             class:list={[
-              "block px-2 py-2 eyebrow",
-              lang === current ? "text-fg" : "text-muted hover:text-fg",
+              "flex items-center justify-between gap-4 px-3 py-2 eyebrow",
+              lang === current
+                ? "bg-surface text-fg"
+                : "text-muted hover:text-fg",
             ]}
           >
-            {lang}
+            {languages[lang]}
+            <span class="text-muted">{lang}</span>
           </a>
         </li>
       ))
     }
   </ul>
-</nav>
+</div>
+
+<script>
+  document
+    .querySelectorAll<HTMLElement>("[data-lang-switcher]")
+    .forEach((switcher) => {
+      const button = switcher.querySelector("button")!;
+      const menu = switcher.querySelector("ul")!;
+
+      const setOpen = (open: boolean) => {
+        button.setAttribute("aria-expanded", String(open));
+        menu.classList.toggle("hidden", !open);
+      };
+
+      button.addEventListener("click", () =>
+        setOpen(button.getAttribute("aria-expanded") !== "true"),
+      );
+
+      // Close on outside click or Escape
+      document.addEventListener("click", (event) => {
+        if (!switcher.contains(event.target as Node)) setOpen(false);
+      });
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && !menu.classList.contains("hidden")) {
+          setOpen(false);
+          button.focus();
+        }
+      });
+    });
+</script>

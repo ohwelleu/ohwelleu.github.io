@@ -17,7 +17,11 @@
   --fg: #232323;
   --muted: #6e6a63;
   --line: #d4cfc4;
-  --accent: #ff6b00;
+  /* Each accent has a light- and dark-theme shade. `.dark` picks the dark one,
+     so always-dark panels follow the chosen accent too. */
+  --accent-light: #ff6b00;
+  --accent-dark: #ff7a1a;
+  --accent: var(--accent-light);
 }
 
 .dark {
@@ -27,7 +31,23 @@
   --fg: #ece9e2;
   --muted: #8f8b83;
   --line: #333230;
-  --accent: #ff7a1a;
+  --accent: var(--accent-dark);
+}
+
+/* Accent palettes, picked with AccentPicker. Orange (above) is the default. */
+:root[data-accent="purple"] {
+  --accent-light: #7c3aed;
+  --accent-dark: #9b6bff;
+}
+
+:root[data-accent="green"] {
+  --accent-light: #16a34a;
+  --accent-dark: #22c55e;
+}
+
+:root[data-accent="blue"] {
+  --accent-light: #2563eb;
+  --accent-dark: #4f8bff;
 }
 
 @theme inline {
