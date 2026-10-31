@@ -1,0 +1,42 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import AfkGame from "@/components/game/AfkGame.astro";
+import Container from "@/components/ui/Container.astro";
+import Icon from "@/components/ui/Icon.astro";
+import SectionHeader from "@/components/ui/SectionHeader.astro";
+import type { Lang } from "@/i18n/config";
+import { langStaticPaths, useTranslations } from "@/i18n/utils";
+import { GAME_REPO, GAME_SCRIPT } from "@/lib/game";
+
+export const getStaticPaths = langStaticPaths;
+
+const lang = Astro.params.lang as Lang;
+const t = useTranslations(lang);
+---
+
+<BaseLayout title={t("game.title")} description={t("game.intro")}>
+  <script slot="head" is:inline src={GAME_SCRIPT} defer></script>
+
+  <Container class="pt-16 pb-24 sm:pt-24">
+    <SectionHeader
+      as="h1"
+      index="02"
+      label={t("nav.game")}
+      title={t("game.title")}
+      intro={t("game.intro")}
+    />
+
+    <div class="mt-10">
+      <AfkGame />
+    </div>
+
+    <a
+      href={GAME_REPO}
+      rel="noopener"
+      class="mt-6 inline-flex items-center gap-1 eyebrow hover:text-accent"
+    >
+      {t("game.source")}
+      <Icon name="arrowUpRight" class="size-3.5" />
+    </a>
+  </Container>
+</BaseLayout>

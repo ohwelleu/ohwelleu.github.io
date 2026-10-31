@@ -13,7 +13,10 @@
       "(prefers-color-scheme: dark)",
     ).matches;
     const isDark = saved ? saved === "dark" : prefersDark;
+    // `light` is set too, so embeds (the AFK game) can tell an explicit light
+    // choice apart from "follow the system".
     document.documentElement.classList.toggle("dark", isDark);
+    document.documentElement.classList.toggle("light", !isDark);
 
     const accent = localStorage.getItem("accent");
     if (accent) document.documentElement.dataset.accent = accent;

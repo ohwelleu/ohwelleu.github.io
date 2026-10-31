@@ -17,6 +17,7 @@ const lang = getLangFromUrl(Astro.url);
 <html lang={localeTags[lang]}>
   <head>
     <BaseHead {...Astro.props} />
+    <slot name="head" />
   </head>
   <!-- Bottom padding keeps the fixed nav bar clear of the footer -->
   <body class="flex flex-col pb-20 sm:pb-24">

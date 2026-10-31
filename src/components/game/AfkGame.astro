@@ -1,0 +1,9 @@
+---
+/**
+ * The AFK pixel game. Pages that use it also load `GAME_SCRIPT` in <head>
+ * through BaseLayout's "head" slot.
+ */
+import { GAME_SAVE_KEY } from "@/lib/game";
+---
+
+<afk-game save-key={GAME_SAVE_KEY} class="block w-full"></afk-game>
