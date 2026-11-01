@@ -1,14 +1,19 @@
 ---
 interface Props {
   class?: string;
+  /** Drop the shrug's arms on small screens, leaving only ツ. */
+  compact?: boolean;
 }
 
-const { class: className } = Astro.props;
+const { class: className, compact = false } = Astro.props;
+const arms = compact ? "max-sm:hidden" : undefined;
 ---
 
 <span
   class:list={["font-mono whitespace-nowrap", className]}
   aria-hidden="true"
 >
-  ¯\_(<span class="text-accent">ツ</span>)_/¯
+  <span class={arms}>¯\_(</span><span class="text-accent">ツ</span><span
+    class={arms}>)_/¯</span
+  >
 </span>
