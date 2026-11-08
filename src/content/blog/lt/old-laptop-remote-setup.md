@@ -116,12 +116,6 @@ Pagrindiniame kompiuteryje T3 programa gali pridėti nešiojamąjį kaip nuotoli
 
 Patikrinti galima taip: pradėk giją nešiojamajame ir paprašyk paleisti `hostname`. Jei atsakymas yra nešiojamojo vardas, o ne tavo kompiuterio, viskas veikia ten, kur reikia.
 
-## Kas mane supainiojo
-
-- **Sukūriau aplanką `.ai`, o `ls` nieko nerodė.** Pavadinimai, prasidedantys tašku, yra paslėpti. `ls -a` juos parodo. DI agentai jais naudojasi be problemų, bet įrankiai kaip ripgrep praleidžia paslėptus failus, jei nenurodai kelio. Jei T3 aplankų pasirinkimo langas jo nerodo, įrašyk pilną kelią arba padaryk matomą nuorodą: `ln -s ~/.ai ~/ai`.
-- **Config failas.** Jis be plėtinio. Tikrink su `dir`, o ne pasitikėk Notepad.
-- **Po rakto vis dar prašo slaptažodžio?** Pažiūrėk `ssh -v oldlaptop` ir `~/.ssh` (700) bei `authorized_keys` (600) teises.
-
 ## Kas toliau
 
 Šito dar nepadariau, todėl laikyk tai planu, o ne išbandytu receptu:

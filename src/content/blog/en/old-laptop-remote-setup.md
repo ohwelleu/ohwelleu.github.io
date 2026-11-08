@@ -116,12 +116,6 @@ On the main PC, the T3 desktop app can add the laptop as a remote environment ov
 
 To check that it works, start a thread on the laptop and ask it to run `hostname`. If the answer is the laptop's name and not your PC's, it's running where you want it.
 
-## Things that confused me
-
-- **I made a folder called `.ai` and `ls` showed nothing.** Names that start with a dot are hidden. `ls -a` shows them. AI agents can use them fine, but tools like ripgrep skip hidden files unless you give the path. If the T3 folder picker doesn't list it, type the full path or make a visible symlink: `ln -s ~/.ai ~/ai`.
-- **The config file.** It has no extension. Check with `dir`, not by trusting Notepad.
-- **Still asked for a password after the key?** Look at `ssh -v oldlaptop` and the permissions on `~/.ssh` (700) and `authorized_keys` (600).
-
 ## What's next
 
 I haven't done these yet, so treat them as the plan and not as a tested recipe:
